@@ -9,8 +9,8 @@
 import Foundation
 
 extension NSTimer {
-    public class func schedule(#delay: NSTimeInterval, handler: NSTimer! -> Void) -> NSTimer {
-        let fireDate = delay + CFAbsoluteTimeGetCurrent()
+    public class func schedule(delay afterDelay: NSTimeInterval, handler: NSTimer! -> Void) -> NSTimer {
+        let fireDate = afterDelay + CFAbsoluteTimeGetCurrent()
         let timer = CFRunLoopTimerCreateWithHandler(kCFAllocatorDefault, fireDate, 0, 0, 0, handler)
         CFRunLoopAddTimer(CFRunLoopGetCurrent(), timer, kCFRunLoopCommonModes)
         return timer

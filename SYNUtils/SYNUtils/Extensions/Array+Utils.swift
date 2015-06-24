@@ -70,7 +70,7 @@ extension Array {
     }
     
     mutating func fill(value: Element, count: Int) {
-        for i in 0..<count {
+        for _ in 0..<count {
             append(value)
         }
     }

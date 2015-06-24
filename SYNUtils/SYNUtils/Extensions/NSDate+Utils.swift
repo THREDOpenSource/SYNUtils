@@ -79,32 +79,32 @@ extension NSDate: Comparable {
         let now = NSDate()
         
         let referenceTime = now.timeIntervalSinceDate(pastDate)
-        let seconds       = round(fabs(referenceTime));
-        let minutes       = round(seconds / 60.0);
-        let hours         = round(minutes / 60.0);
-        let days          = round(hours / 24.0);
-        let years         = round(days / 365.0);
+        let seconds       = round(fabs(referenceTime))
+        let minutes       = round(seconds / 60.0)
+        let hours         = round(minutes / 60.0)
+        let days          = round(hours / 24.0)
+        let years         = round(days / 365.0)
         
         if (seconds < 45) {
-            return "now";
+            return "now"
         } else if (minutes == 1) {
-            return "1m";
+            return "1m"
         } else if (minutes < 45) {
             return "\(Int(minutes))m"
         } else if (hours == 1) {
-            return "1h";
+            return "1h"
         } else if (hours < 22) {
             return "\(Int(hours))h"
         } else if (days == 1) {
-            return "1d";
+            return "1d"
         } else if (days < 7) {
             return "\(Int(days))d"
         } else if (days < 14) {
-            return "1w";
+            return "1w"
         } else if (days < 345) {
             return "\(Int(round(days / 7.0)))w"
         } else if (years == 1) {
-            return "1y";
+            return "1y"
         } else {
             return "\(Int(years))y"
         }

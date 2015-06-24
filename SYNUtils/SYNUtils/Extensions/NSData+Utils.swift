@@ -41,26 +41,8 @@ extension NSData {
     
     // MARK: - Hexadecimal String Conversions
     
-    public convenience init?(hexString: String) {
-        var data = NSMutableData()
-        var temp = ""
-        
-        for char in hexString {
-            temp += String(char)
-            if(count(temp) == 2) {
-                let scanner = NSScanner(string: temp)
-                var value: CUnsignedInt = 0
-                scanner.scanHexInt(&value)
-                data.appendBytes(&value, length: 1)
-                temp = ""
-            }
-        }
-        
-        self.init(data: data)
-    }
-    
     public func toHexString() -> String {
-        var hexString = NSMutableString()
+        let hexString = NSMutableString()
         
         let bytes = UnsafeBufferPointer<UInt8>(start: UnsafePointer(self.bytes), count:self.length)
         for byte in bytes {
