@@ -8,6 +8,7 @@
 
 import UIKit
 import XCTest
+import SYNUtils
 
 class SYNUtilsTests: XCTestCase {
     
@@ -33,4 +34,28 @@ class SYNUtilsTests: XCTestCase {
         }
     }
     
+}
+
+class NSRegularExpressionTests: XCTestCase {
+    let abcs = "abcdef"
+    let emojis = "👹👀🐼📱"
+    let qbfjold = "The Quick Brown Fox Jumps Over The Lazy Dog"
+    
+    func testCreation() {
+        XCTAssertNotNil(RegExp("abc"))
+        XCTAssertNotNil(RegExp("ab+c"))
+        XCTAssertNil(RegExp("["))
+    }
+    
+    func testExec() {
+        
+    }
+    
+    func testTest() {
+        
+    }
+    
+    func testCaseSensitivity() {
+        
+    }
 }

@@ -19,10 +19,31 @@ extension String {
         }()
     }
     
-    public func range(startOffset: Int = 0, endOffset: Int = 0) -> Range<String.Index> {
+    public func replace(target: String, withString replacement: String,
+        options: NSStringCompareOptions = .LiteralSearch,
+        range searchRange: Range<Int>? = nil) -> String
+    {
+        let searchRange: Range<String.Index>? = (searchRange != nil) ? toStringRange(searchRange!) : nil
+        return self.stringByReplacingOccurrencesOfString(target, withString: replacement,
+            options: options, range: searchRange)
+    }
+    
+    public func rangeWithOffsets(startOffset: Int = 0, endOffset: Int = 0) -> Range<String.Index> {
         return Range<String.Index>(
             start: advance(self.startIndex, startOffset),
-            end: advance(self.endIndex, endOffset))
+            end: advance(self.endIndex, endOffset)
+        )
+    }
+    
+    public func toStringRange(range: Range<Int>) -> Range<String.Index> {
+        return Range<String.Index>(
+            start: advance(self.startIndex, range.startIndex),
+            end: advance(self.startIndex, range.endIndex - range.startIndex)
+        )
+    }
+    
+    public func fullNSRange() -> NSRange {
+        return NSMakeRange(0, (self as NSString).length)
     }
     
     public func trim() -> String {

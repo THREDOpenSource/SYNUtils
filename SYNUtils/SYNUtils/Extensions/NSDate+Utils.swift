@@ -8,7 +8,7 @@
 
 import Foundation
 
-extension NSDate {
+extension NSDate: Comparable {
     public class func currentTZOffset() -> NSTimeInterval {
         return Double(NSTimeZone.localTimeZone().secondsFromGMT) / 60.0
     }
@@ -40,8 +40,7 @@ extension NSDate {
         let initialLength = dateString.length
         if initialLength > 20 {
             // Remove colon in the timezone since iOS 4+ NSDateFormatter can't handle them
-            dateString = dateString.stringByReplacingOccurrencesOfString(
-                ":", withString: "", options: .LiteralSearch, range: dateString.range(startOffset: 20))
+            dateString = dateString.replace(":", withString: "", range: (20..<initialLength))
         }
         
         // Try RFC 3339 first
@@ -126,5 +125,78 @@ extension NSDate {
         return NSCalendar.currentCalendar().dateFromComponents(components)!
     }
     
+    public func add(seconds: Int = 0, minutes: Int = 0, hours: Int = 0, days: Int = 0, weeks: Int = 0, months: Int = 0, years: Int = 0) -> NSDate {
+        let calendar = NSCalendar.currentCalendar()
+        var date: NSDate! = calendar.dateByAddingUnit(.CalendarUnitSecond, value: seconds, toDate: self, options: nil)
+        date = calendar.dateByAddingUnit(.CalendarUnitMinute, value: minutes, toDate: date, options: nil)
+        date = calendar.dateByAddingUnit(.CalendarUnitDay, value: days, toDate: date, options: nil)
+        date = calendar.dateByAddingUnit(.CalendarUnitHour, value: hours, toDate: date, options: nil)
+        date = calendar.dateByAddingUnit(.CalendarUnitWeekOfMonth, value: weeks, toDate: date, options: nil)
+        date = calendar.dateByAddingUnit(.CalendarUnitMonth, value: months, toDate: date, options: nil)
+        date = calendar.dateByAddingUnit(.CalendarUnitYear, value: years, toDate: date, options: nil)
+        return date
+    }
     
+    public func addSeconds (seconds: Int) -> NSDate { return add(seconds: seconds) }
+    public func addMinutes (minutes: Int) -> NSDate { return add(minutes: minutes) }
+    public func addHours(hours: Int) -> NSDate { return add(hours: hours) }
+    public func addDays(days: Int) -> NSDate { return add(days: days) }
+    public func addWeeks(weeks: Int) -> NSDate { return add(weeks: weeks) }
+    public func addMonths(months: Int) -> NSDate { return add(months: months) }
+    public func addYears(years: Int) -> NSDate { return add(years: years) }
+    
+    // MARK: - Comparison
+    
+    public func isAfter(date: NSDate) -> Bool {
+        return compare(date) == .OrderedDescending
+    }
+    
+    public func isBefore(date: NSDate) -> Bool {
+        return compare(date) == .OrderedAscending
+    }
+    
+    // MARK: - Getters
+    
+    public var year: Int { return getComponent(.CalendarUnitYear) }
+    public var month: Int { return getComponent(.CalendarUnitMonth) }
+    public var weekOfMonth: Int { return getComponent(.CalendarUnitWeekOfMonth) }
+    public var weekday: Int { return getComponent(.CalendarUnitWeekday) }
+    public var days: Int { return getComponent(.CalendarUnitDay) }
+    public var hours: Int { return getComponent(.CalendarUnitHour) }
+    public var minutes: Int { return getComponent(.CalendarUnitMinute) }
+    public var seconds: Int { return getComponent(.CalendarUnitSecond) }
+    
+    public func getComponent(component: NSCalendarUnit) -> Int {
+        let calendar = NSCalendar.currentCalendar()
+        let components = calendar.components(component, fromDate: self)
+        return components.valueForComponent(component)
+    }
+}
+
+public func +(date: NSDate, timeInterval: NSTimeInterval) -> NSDate {
+    return date.dateByAddingTimeInterval(timeInterval)
+}
+
+public func -(date: NSDate, timeInterval: NSTimeInterval) -> NSDate {
+    return date.dateByAddingTimeInterval(-timeInterval)
+}
+
+public func +=(inout date: NSDate, timeInterval: Double) {
+    date = date + timeInterval
+}
+
+public func -=(inout date: NSDate, timeInterval: Double) {
+    date = date - timeInterval
+}
+
+public func -(lhs: NSDate, rhs: NSDate) -> NSTimeInterval {
+    return lhs.timeIntervalSinceDate(rhs)
+}
+
+public func ==(lhs: NSDate, rhs: NSDate) -> Bool {
+    return lhs.compare(rhs) == .OrderedSame
+}
+
+public func <(lhs: NSDate, rhs: NSDate) -> Bool {
+    return lhs.compare(rhs) == .OrderedAscending
 }
