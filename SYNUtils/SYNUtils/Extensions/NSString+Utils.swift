@@ -87,6 +87,8 @@ extension String {
     // MARK: - Range Helpers
     
     public func rangeWithOffsets(startOffset: Int = 0, endOffset: Int = 0) -> Range<String.Index> {
+        assert(endOffset <= 0, "Can not create a range extending beyond endOffset")
+        
         return Range<String.Index>(
             start: advance(startIndex, startOffset),
             end: advance(endIndex, endOffset)
@@ -98,6 +100,15 @@ extension String {
             start: advance(startIndex, range.startIndex),
             end: advance(startIndex, range.endIndex)
         )
+    }
+    
+    public func toStringRange(range: NSRange) -> Range<String.Index>? {
+        if  let from = String.Index(utf16.startIndex + range.location, within: self),
+            let to = String.Index(utf16.startIndex + range.location + range.length, within: self)
+        {
+            return from ..< to
+        }
+        return nil
     }
     
     public func fullNSRange() -> NSRange {

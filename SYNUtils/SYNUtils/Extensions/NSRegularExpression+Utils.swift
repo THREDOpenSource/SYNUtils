@@ -10,13 +10,21 @@ import Foundation
 
 public typealias RegExp = NSRegularExpression
 
+/// Represents a single regular expression match, including a string value and
+/// zero or more capture group strings
 public struct RegExpMatch {
+    /// The complete matched string
     public let value: String
-    // FIXME: Implement once we have the helpers to safely convert from NSRange to Range<String.Index>
-    //public let index: String.Index
+    
+    /// Range of the input string containing this match
+    public let range: Range<String.Index>
+    
+    /// Array of capture groups for this match, if any capture groups were
+    /// specified in the regular expression
     public let captureGroups: [String]
 }
 
+/// A sequence of matches for a regular expression
 public struct RegExpMatches : SequenceType {
     private let matches: [RegExpMatch]
     public var count: Int { return matches.count }
@@ -38,8 +46,8 @@ public struct RegExpMatches : SequenceType {
             let captureGroups = (1..<result.numberOfRanges).map {
                 return nsHaystack.substringWithRange(result.rangeAtIndex($0))
             }
-            let match = RegExpMatch(value: value, captureGroups: captureGroups)
             
+            let match = RegExpMatch(value: value, range: haystack.toStringRange(result.range)!, captureGroups: captureGroups)
             matches.append(match)
         }
         
