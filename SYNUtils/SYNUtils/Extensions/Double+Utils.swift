@@ -8,18 +8,6 @@
 
 import Foundation
 
-public func lerp(a: Int, b: Int, t: Int) -> Int {
-    return a + (b - a) * t
-}
-
-public func lerp(a: Float, b: Float, t: Float) -> Float {
-    return a + (b - a) * t
-}
-
-public func lerp(a: Double, b: Double, t: Double) -> Double {
-    return a + (b - a) * t
-}
-
 extension Double {
     public func abs() -> Double {
         return Foundation.fabs(self)
