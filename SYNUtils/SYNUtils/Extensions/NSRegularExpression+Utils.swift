@@ -17,8 +17,9 @@ public struct RegExpMatch {
     public let captureGroups: [String]
 }
 
-public struct RegExpMatches {
-    public let matches: [RegExpMatch]
+public struct RegExpMatches : SequenceType {
+    private let matches: [RegExpMatch]
+    public var count: Int { return matches.count }
     public let input: String
     
     public init(matches: [RegExpMatch], input: String) {
@@ -34,7 +35,7 @@ public struct RegExpMatches {
             (result: NSTextCheckingResult!, _, _) in
             
             let value = nsHaystack.substringWithRange(result.range)
-            let captureGroups = (0..<result.numberOfRanges).map {
+            let captureGroups = (1..<result.numberOfRanges).map {
                 return nsHaystack.substringWithRange(result.rangeAtIndex($0))
             }
             let match = RegExpMatch(value: value, captureGroups: captureGroups)
@@ -43,6 +44,16 @@ public struct RegExpMatches {
         }
         
         self.init(matches: matches, input: haystack)
+    }
+    
+    // MARK: - Array Implementation
+    
+    public func generate() -> GeneratorOf<RegExpMatch> {
+        var nextIndex = 0
+        return GeneratorOf<RegExpMatch> {
+            if nextIndex >= self.matches.count { return nil }
+            return self.matches[nextIndex++]
+        }
     }
     
     public subscript(index: Int) -> RegExpMatch {
