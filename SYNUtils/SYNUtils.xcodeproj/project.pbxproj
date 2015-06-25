@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9F1AEBCA1B3C81F700FAC7B0 /* Math.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F1AEBC91B3C81F700FAC7B0 /* Math.swift */; };
 		9FA092B21B3B691F00F011E5 /* NSRegularExpression+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FA092B11B3B691F00F011E5 /* NSRegularExpression+Utils.swift */; };
 		9FB02C3C1B39EAC2001369B4 /* SYNUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 9FB02C3B1B39EAC2001369B4 /* SYNUtils.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9FB02C421B39EAC2001369B4 /* SYNUtils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FB02C361B39EAC2001369B4 /* SYNUtils.framework */; };
@@ -40,6 +41,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		9F1AEBC91B3C81F700FAC7B0 /* Math.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Math.swift; sourceTree = "<group>"; };
 		9FA092B11B3B691F00F011E5 /* NSRegularExpression+Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSRegularExpression+Utils.swift"; sourceTree = "<group>"; };
 		9FB02C361B39EAC2001369B4 /* SYNUtils.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SYNUtils.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9FB02C3A1B39EAC2001369B4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -107,6 +109,7 @@
 			children = (
 				9FB02C521B39EB44001369B4 /* Extensions */,
 				9FB02C391B39EAC2001369B4 /* Supporting Files */,
+				9F1AEBC91B3C81F700FAC7B0 /* Math.swift */,
 				9FB02C5B1B3A153A001369B4 /* MD5.swift */,
 				9FB02C3B1B39EAC2001369B4 /* SYNUtils.h */,
 				9FB02C6D1B3A5EED001369B4 /* Threading.swift */,
@@ -281,6 +284,7 @@
 				9FB02C621B3A4E5B001369B4 /* Double+Utils.swift in Sources */,
 				9FB02C5E1B3A1894001369B4 /* UIColor+Utils.swift in Sources */,
 				9FB02C561B39ECC0001369B4 /* NSObject+Utils.swift in Sources */,
+				9F1AEBCA1B3C81F700FAC7B0 /* Math.swift in Sources */,
 				9FB02C661B3A50BA001369B4 /* CGSize+Utils.swift in Sources */,
 				9FB02C701B3A74E4001369B4 /* CGPoint+Utils.swift in Sources */,
 				9FA092B21B3B691F00F011E5 /* NSRegularExpression+Utils.swift in Sources */,
