@@ -47,7 +47,7 @@ extension NSMutableData {
     }
 }
 
-final class MD5 {
+struct MD5 {
     private var message: NSData
     private var size: Int = 16 // 128 / 8
     
