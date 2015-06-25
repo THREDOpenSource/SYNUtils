@@ -13,6 +13,7 @@
     public typealias UIColor = NSColor
     
     extension NSColor {
+        /// Implementation of UIColor initializer missing from NSColor.
         public convenience init(red: CGFloat, green: CGFloat, blue: CGFloat, alpha: CGFloat) {
             self.init(SRGBRed: red, green: green, blue: blue, alpha: alpha)
         }
@@ -22,6 +23,9 @@
 extension UIColor {
     // MARK: - Integer/Hex Conversions
     
+    /// Initialize with a 32-bit unsigned integer holding 0xAARRGGBB values.
+    ///
+    /// :param: argb Integer holding values in alpha, red, green, blue order
     public convenience init(argb: UInt32) {
         if argb == 0 {
             self.init(white: 0.0, alpha: 1.0)
@@ -38,7 +42,14 @@ extension UIColor {
         self.init(red: red, green: green, blue: blue, alpha: alpha)
     }
     
+    /// Initialize with a hexadecimal string of the form "RRGGBB" or "AARRGGBB"
+    /// (optionally prepended with "0x").
+    ///
+    /// :param: hexString Hex color value as an RGB or ARGB string
     public convenience init(hexString: String) {
+        var hexString = hexString
+        if hexString.startsWith("0x") { hexString = hexString.substr(2) }
+        
         let scanner = NSScanner(string: hexString)
         var argb: UInt32 = 0
         scanner.scanHexInt(&argb)
@@ -46,6 +57,10 @@ extension UIColor {
         self.init(argb: argb)
     }
     
+    /// Returns the color as a 32-bit unsigned integer holding 0xAARRGGBB
+    /// values.
+    ///
+    /// :returns: ARGB integer
     public var argb: UInt32 {
         var red: CGFloat = 0.0, green: CGFloat = 0.0, blue: CGFloat = 0.0, alpha: CGFloat = 0.0
         self.getRed(&red, green: &green, blue: &blue, alpha: &alpha)
@@ -58,6 +73,9 @@ extension UIColor {
         return (alphaByte << 24) | (redByte << 16) | (greenByte << 8) | blueByte
     }
     
+    /// Returns the color as an "RRGGBB" hexadecimal string.
+    ///
+    /// :returns: RGB hex string
     public var hexString: String {
         var red: CGFloat = 0.0, green: CGFloat = 0.0, blue: CGFloat = 0.0
         self.getRed(&red, green: &green, blue: &blue, alpha: nil)

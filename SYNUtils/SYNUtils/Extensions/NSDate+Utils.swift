@@ -9,8 +9,19 @@
 import Foundation
 
 extension NSDate: Comparable {
+    /// Returns the current system local timezone as the number of seconds
+    /// offset from GMT.
+    ///
+    /// :returns: Example: -25200 seconds for Pacific Daylight Time
     public class func currentTZOffset() -> NSTimeInterval {
-        return Double(NSTimeZone.localTimeZone().secondsFromGMT) / 60.0
+        return NSTimeInterval(NSTimeZone.localTimeZone().secondsFromGMT)
+    }
+    
+    /// Returns the current system local timezone as the number of minutes
+    /// offset from GMT.
+    /// :returns: Example: -420 minutes for Pacific Daylight Time
+    public class func currentTZOffsetMinutes() -> Int {
+        return Int(currentTZOffset() / 60.0)
     }
     
     // MARK: - Standard Date String Conversions
@@ -35,6 +46,11 @@ extension NSDate: Comparable {
         }()
     }
     
+    /// Initialize NSDate from a date string in either RFC 3339 or ISO 8601
+    /// format.
+    ///
+    /// :param: dateString String representation of a date and time. Example:
+    ///   "2015-06-25T22:28:19.690Z"
     public convenience init?(dateString: String) {
         var dateString = dateString
         let initialLength = dateString.length
@@ -59,26 +75,43 @@ extension NSDate: Comparable {
         return nil
     }
     
+    /// Returns this date as an ISO 8601 string.
+    ///
+    /// :returns: ISO 8601 formatted string
     public func toISOString() -> String {
         return DateFormatters.isoFormatter.stringFromDate(self)
     }
     
+    /// Returns this date as an RFC 3339 string.
+    ///
+    /// :returns: RFC 3339 formatted string
     public func toRFC3339String() -> String {
         return DateFormatters.rfc3339Formatter.stringFromDate(self)
     }
     
     // MARK: - UNIX Timestamps
     
+    /// Returns this date as a UNIX timestamp (number of whole seconds passed
+    /// since the UNIX epoch).
+    ///
+    /// :returns: 64-bit integer timestamp
     public func unixTimestamp() -> Int64 {
         return Int64(self.timeIntervalSince1970)
     }
     
     // MARK: - Human-Friendly Conversions
     
-    public func shortRelativeString(pastDate: NSDate) -> String {
+    /// Returns the difference between this date and another date as a short
+    /// human-friendly string. Examples: "now", "3m", "5h", "1w", "2015y".
+    ///
+    /// :param: otherDate Other date to compare this date against. The absolute
+    ///   difference between the two dates is used.
+    /// :returns: A short string representation of the time difference between
+    ///   the two dates
+    public func shortRelativeString(otherDate: NSDate) -> String {
         let now = NSDate()
         
-        let referenceTime = now.timeIntervalSinceDate(pastDate)
+        let referenceTime = now.timeIntervalSinceDate(otherDate)
         let seconds       = round(fabs(referenceTime))
         let minutes       = round(seconds / 60.0)
         let hours         = round(minutes / 60.0)
@@ -112,6 +145,9 @@ extension NSDate: Comparable {
     
     // MARK: - Date Arithmetic
     
+    /// Returns an NSDate for midnight of the same day as this date.
+    ///
+    /// :returns: NSDate at midnight
     public func midnight() -> NSDate {
         let preservedComponents: NSCalendarUnit =
             .CalendarUnitYear | .CalendarUnitMonth | .CalendarUnitDay |
@@ -125,48 +161,88 @@ extension NSDate: Comparable {
         return NSCalendar.currentCalendar().dateFromComponents(components)!
     }
     
-    public func add(seconds: Int = 0, minutes: Int = 0, hours: Int = 0, days: Int = 0, weeks: Int = 0, months: Int = 0, years: Int = 0) -> NSDate {
-        let calendar = NSCalendar.currentCalendar()
-        var date: NSDate! = calendar.dateByAddingUnit(.CalendarUnitSecond, value: seconds, toDate: self, options: nil)
-        date = calendar.dateByAddingUnit(.CalendarUnitMinute, value: minutes, toDate: date, options: nil)
-        date = calendar.dateByAddingUnit(.CalendarUnitDay, value: days, toDate: date, options: nil)
-        date = calendar.dateByAddingUnit(.CalendarUnitHour, value: hours, toDate: date, options: nil)
-        date = calendar.dateByAddingUnit(.CalendarUnitWeekOfMonth, value: weeks, toDate: date, options: nil)
-        date = calendar.dateByAddingUnit(.CalendarUnitMonth, value: months, toDate: date, options: nil)
-        date = calendar.dateByAddingUnit(.CalendarUnitYear, value: years, toDate: date, options: nil)
-        return date
+    /// Returns a new date by adding seconds to the current date.
+    public func addSeconds(seconds: Int) -> NSDate {
+        return NSCalendar.currentCalendar().dateByAddingUnit(
+            .CalendarUnitSecond, value: seconds, toDate: self, options: nil)!
     }
     
-    public func addSeconds (seconds: Int) -> NSDate { return add(seconds: seconds) }
-    public func addMinutes (minutes: Int) -> NSDate { return add(minutes: minutes) }
-    public func addHours(hours: Int) -> NSDate { return add(hours: hours) }
-    public func addDays(days: Int) -> NSDate { return add(days: days) }
-    public func addWeeks(weeks: Int) -> NSDate { return add(weeks: weeks) }
-    public func addMonths(months: Int) -> NSDate { return add(months: months) }
-    public func addYears(years: Int) -> NSDate { return add(years: years) }
+    /// Returns a new date by adding minutes to the current date.
+    public func addMinutes(minutes: Int) -> NSDate {
+        return NSCalendar.currentCalendar().dateByAddingUnit(
+            .CalendarUnitMinute, value: minutes, toDate: self, options: nil)!
+    }
+    
+    /// Returns a new date by adding hours to the current date.
+    public func addHours(hours: Int) -> NSDate {
+        return NSCalendar.currentCalendar().dateByAddingUnit(
+            .CalendarUnitHour, value: hours, toDate: self, options: nil)!
+    }
+    
+    /// Returns a new date by adding days to the current date.
+    public func addDays(days: Int) -> NSDate {
+        return NSCalendar.currentCalendar().dateByAddingUnit(
+            .CalendarUnitDay, value: days, toDate: self, options: nil)!
+    }
+    
+    /// Returns a new date by adding weeks to the current date.
+    public func addWeeks(weeks: Int) -> NSDate {
+        return NSCalendar.currentCalendar().dateByAddingUnit(
+            .CalendarUnitWeekOfMonth, value: weeks, toDate: self, options: nil)!
+    }
+    
+    /// Returns a new date by adding months to the current date.
+    public func addMonths(months: Int) -> NSDate {
+        return NSCalendar.currentCalendar().dateByAddingUnit(
+            .CalendarUnitMonth, value: months, toDate: self, options: nil)!
+    }
+    
+    /// Returns a new date by adding years to the current date.
+    public func addYears(years: Int) -> NSDate {
+        return NSCalendar.currentCalendar().dateByAddingUnit(
+            .CalendarUnitYear, value: years, toDate: self, options: nil)!
+    }
     
     // MARK: - Comparison
     
+    /// Test if a given date occurs after this date.
+    ///
+    /// :param: date Date to test against this date
+    /// :returns: True if the given date is ahead of this date, otherwise false
+    ///   if it is equal to or behind this date.
     public func isAfter(date: NSDate) -> Bool {
         return compare(date) == .OrderedDescending
     }
     
+    /// Test if a given date occurs before this date.
+    ///
+    /// :param: date Date to test against this date
+    /// :returns: True if the given date is behind this date, otherwise false
+    ///   if it is equal to or ahead of this date.
     public func isBefore(date: NSDate) -> Bool {
         return compare(date) == .OrderedAscending
     }
     
     // MARK: - Getters
     
+    /// Year component
     public var year: Int { return getComponent(.CalendarUnitYear) }
+    /// Month component
     public var month: Int { return getComponent(.CalendarUnitMonth) }
+    /// Week component
     public var weekOfMonth: Int { return getComponent(.CalendarUnitWeekOfMonth) }
+    /// Day of Week component
     public var weekday: Int { return getComponent(.CalendarUnitWeekday) }
+    /// Day of Year component
     public var days: Int { return getComponent(.CalendarUnitDay) }
+    /// Hours component
     public var hours: Int { return getComponent(.CalendarUnitHour) }
+    /// Minutes component
     public var minutes: Int { return getComponent(.CalendarUnitMinute) }
+    /// Seconds component
     public var seconds: Int { return getComponent(.CalendarUnitSecond) }
     
-    public func getComponent(component: NSCalendarUnit) -> Int {
+    func getComponent(component: NSCalendarUnit) -> Int {
         let calendar = NSCalendar.currentCalendar()
         let components = calendar.components(component, fromDate: self)
         return components.valueForComponent(component)

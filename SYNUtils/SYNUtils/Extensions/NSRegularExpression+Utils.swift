@@ -30,12 +30,12 @@ public struct RegExpMatches : SequenceType {
     public var count: Int { return matches.count }
     public let input: String
     
-    public init(matches: [RegExpMatch], input: String) {
+    init(matches: [RegExpMatch], input: String) {
         self.matches = matches
         self.input = input
     }
     
-    public init(re: RegExp, haystack: String) {
+    init(re: RegExp, haystack: String) {
         var matches = [RegExpMatch]()
         let nsHaystack = haystack as NSString
         
@@ -70,6 +70,14 @@ public struct RegExpMatches : SequenceType {
 }
 
 extension NSRegularExpression {
+    /// Simple initializer for building a regular expression from a string
+    /// pattern.
+    ///
+    /// :param: pattern Regular expression pattern
+    /// :param: ignoreCase Toggles case-insensitive regular expression
+    ///   construction
+    /// :returns: An NSRegularExpression if the given expression pattern was
+    /// successfully parsed, otherwise nil
     public convenience init?(_ pattern: String, ignoreCase: Bool = false) {
         var options = NSRegularExpressionOptions.DotMatchesLineSeparators.rawValue
         if ignoreCase {
@@ -81,10 +89,22 @@ extension NSRegularExpression {
         if error != nil { return nil }
     }
     
-    public func exec(haystack: String) -> RegExpMatches {
-        return RegExpMatches(re: self, haystack: haystack)
+    /// Execute this regular expression against a given string and return all
+    /// matches and capture groups.
+    ///
+    /// :param: haystack The string to execute this regular expression against
+    /// :returns: A `RegExpMatches` object containing each match which in turn
+    ///   contains the matching value, range, and capture groups
+    public func exec(string: String) -> RegExpMatches {
+        return RegExpMatches(re: self, haystack: string)
     }
     
+    /// Test if this regular expression matches one or more times against a
+    /// given string.
+    ///
+    /// :param: string The string to test this regular expression against
+    /// :returns: True ifthe regular expression matched one or more times,
+    /// otherwise false
     public func test(string: String) -> Bool {
         return numberOfMatchesInString(string, options: nil, range: string.fullNSRange()) > 0
     }

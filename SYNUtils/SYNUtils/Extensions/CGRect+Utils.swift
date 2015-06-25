@@ -9,10 +9,17 @@
 import CoreGraphics
 
 extension CGRect {
+    /// Get the rectangle's midpoint
     public var center: CGPoint {
         return CGPoint(x: CGRectGetMidX(self), y: CGRectGetMidY(self))
     }
     
+    /// Scales this rectangle to fill another rectangle. Some portion of this
+    /// rectangle may extend beyond the bounds of the target rectangle to fill
+    /// the target rectangle
+    ///
+    /// :param: toRect Target rectangle to fill
+    /// :returns: A copy of this rectangle, scaled to fill the target rectangle
     public func aspectFill(toRect: CGRect) -> CGRect {
         let size = self.size.aspectFill(toRect.size)
         return CGRect(
@@ -23,6 +30,11 @@ extension CGRect {
         )
     }
     
+    /// Scales this rectangle to fill the interior of another rectangle while
+    /// maintaining this rectangle's aspect ratio
+    ///
+    /// :param: toRect Target rectangle to fit inside of
+    /// :returns: A copy of this rectangle, scaled to fit the target rectangle
     public func aspectFit(toRect: CGRect) -> CGRect {
         let size = self.size.aspectFit(toRect.size)
         var origin = toRect.origin

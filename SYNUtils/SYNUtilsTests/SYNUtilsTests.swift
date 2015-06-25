@@ -12,7 +12,7 @@ import SYNUtils
 
 class NSRegularExpressionTests: XCTestCase {
     let abcdef = "abcdef"
-    let emojis = "👹👀🐼📱"
+    let emojis = "👹🇪🇸👀🐼📱"
     let qbfjold = "The Quick Brown Fox Jumps Over The Lazy Dog"
     
     func testCreation() {
@@ -34,7 +34,17 @@ class NSRegularExpressionTests: XCTestCase {
             XCTAssertEqual(0, match.captureGroups.count)
         }
         XCTAssertEqual(matches1[0].value, "a")
+        XCTAssertEqual(matches1[1].value, "b")
+        XCTAssertEqual(matches1[2].value, "c")
+        XCTAssertEqual(matches1[3].value, "d")
+        XCTAssertEqual(matches1[4].value, "e")
         XCTAssertEqual(matches1[5].value, "f")
+        XCTAssertEqual(abcdef.substringWithRange(matches1[0].range), "a")
+        XCTAssertEqual(abcdef.substringWithRange(matches1[1].range), "b")
+        XCTAssertEqual(abcdef.substringWithRange(matches1[2].range), "c")
+        XCTAssertEqual(abcdef.substringWithRange(matches1[3].range), "d")
+        XCTAssertEqual(abcdef.substringWithRange(matches1[4].range), "e")
+        XCTAssertEqual(abcdef.substringWithRange(matches1[5].range), "f")
         
         let re2 = RegExp("(.)(.)(.)")
         let matches2 = re2!.exec(abcdef)
@@ -42,6 +52,8 @@ class NSRegularExpressionTests: XCTestCase {
         XCTAssertEqual(count(abcdef) / 3, matches2.count)
         XCTAssertEqual("abc", matches2[0].value)
         XCTAssertEqual("def", matches2[1].value)
+        XCTAssertEqual(abcdef.substringWithRange(matches2[0].range), "abc")
+        XCTAssertEqual(abcdef.substringWithRange(matches2[1].range), "def")
         XCTAssertEqual(3, matches2[0].captureGroups.count)
         XCTAssertEqual(3, matches2[1].captureGroups.count)
         XCTAssertEqual("a", matches2[0].captureGroups[0])
@@ -56,6 +68,7 @@ class NSRegularExpressionTests: XCTestCase {
         XCTAssertEqual(1, matches3.count)
         XCTAssertEqual("🐼", matches3[0].value)
         XCTAssertEqual(0, matches3[0].captureGroups.count)
+        XCTAssertEqual(emojis.substringWithRange(matches3[0].range), "🐼")
     }
     
     func testTest() {
@@ -83,7 +96,7 @@ class NSRegularExpressionTests: XCTestCase {
 
 class NSStringTests: XCTestCase {
     let abcdef = "abcdef"
-    let emojis = "👹👀🐼📱"
+    let emojis = "👹🇪🇸👀🐼📱"
     
     func testSubscript() {
         XCTAssertEqual("a", abcdef[0])
@@ -94,14 +107,15 @@ class NSStringTests: XCTestCase {
         XCTAssertEqual("f", abcdef[5])
         
         XCTAssertEqual("👹", emojis[0])
-        XCTAssertEqual("👀", emojis[1])
-        XCTAssertEqual("🐼", emojis[2])
-        XCTAssertEqual("📱", emojis[3])
+        XCTAssertEqual("🇪🇸", emojis[1])
+        XCTAssertEqual("👀", emojis[2])
+        XCTAssertEqual("🐼", emojis[3])
+        XCTAssertEqual("📱", emojis[4])
         
         XCTAssertEqual("abc", abcdef[0...2])
         XCTAssertEqual("def", abcdef[3..<6])
         
-        XCTAssertEqual("👹👀", emojis[0..<2])
-        XCTAssertEqual("🐼📱", emojis[2...3])
+        XCTAssertEqual("👹🇪🇸👀", emojis[0..<3])
+        XCTAssertEqual("🐼📱", emojis[3...4])
     }
 }

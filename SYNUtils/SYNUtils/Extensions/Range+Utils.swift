@@ -9,16 +9,26 @@
 import Foundation
 
 extension Range {
-    func each(function: (T) -> ()) {
+    /// Execute a function for each element in the range.
+    ///
+    /// :param: function Function to run for each element
+    func each(function: T -> ()) {
         for i in self { function(i) }
     }
     
-    func map(function: (T) -> AnyObject?) -> [AnyObject?] {
-        var output = [AnyObject?]()
+    /// Map each element in this range to an output value.
+    ///
+    /// :param: function Function mapping a range element to an output value
+    /// :returns: An array of output values
+    func map<V: AnyObject>(function: T -> V) -> [V] {
+        var output = [V]()
         for i in self { output.append(function(i)) }
         return output
     }
     
+    /// Convert this range to an array.
+    ///
+    /// :returns: An array containing each element in the range
     func toArray() -> [T] {
         var output = [T]()
         for i in self { output.append(i) }

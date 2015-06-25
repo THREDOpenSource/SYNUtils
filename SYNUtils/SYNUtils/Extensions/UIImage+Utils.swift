@@ -15,11 +15,12 @@ import Foundation
     public typealias UIImage = NSImage
     
     extension NSImage {
+        /// Implementation of UIImage.CGImage
         public var CGImage: CGImageRef! {
             return CGImageForProposedRect(nil, context: nil, hints: nil)?.takeUnretainedValue()
         }
     
-        // Optional to match UIImage
+        /// Implementation of UIImage initializer missing from NSImage
         public convenience init?(CGImage cgImage: CGImageRef) {
             self.init(CGImage: cgImage, size: CGSizeZero)
         }
@@ -27,6 +28,10 @@ import Foundation
 #endif
 
 extension UIImage {
+    /// Create a 1x1 image filled with the specified color.
+    ///
+    /// :param: color Color to fill the image with
+    /// :returns: New UIImage containing one pixel of the specified color
     public class func imageWithFill(color: UIColor) -> UIImage {
         let rect = CGRectMake(0, 0, 1, 1)
         UIGraphicsBeginImageContext(rect.size)
@@ -41,6 +46,8 @@ extension UIImage {
         return image
     }
     
+    /// Returns the actual pixel dimensions of an image, as opposed to
+    /// `UIImage.size` which returns screen-scaled dimensions.
     public var pixelSize: CGSize {
         return size * scale
     }
