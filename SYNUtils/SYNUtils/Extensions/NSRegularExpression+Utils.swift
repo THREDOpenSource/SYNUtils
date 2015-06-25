@@ -31,7 +31,7 @@ public struct RegExpMatches : SequenceType {
         var matches = [RegExpMatch]()
         let nsHaystack = haystack as NSString
         
-        re.enumerateMatchesInString(haystack, options: NSMatchingOptions(), range: haystack.fullNSRange()) {
+        re.enumerateMatchesInString(haystack, options: nil, range: haystack.fullNSRange()) {
             (result: NSTextCheckingResult!, _, _) in
             
             let value = nsHaystack.substringWithRange(result.range)
@@ -78,7 +78,6 @@ extension NSRegularExpression {
     }
     
     public func test(string: String) -> Bool {
-        return numberOfMatchesInString(string, options: NSMatchingOptions(),
-            range: string.fullNSRange()) > 0
+        return numberOfMatchesInString(string, options: nil, range: string.fullNSRange()) > 0
     }
 }

@@ -28,7 +28,7 @@ extension NSData {
     
     public func base64URLEncode() -> String {
         // Encode
-        var base64 = self.base64EncodedStringWithOptions(NSDataBase64EncodingOptions())
+        var base64 = self.base64EncodedStringWithOptions(nil)
         // Remove padding
         base64 = base64.stringByTrimmingCharactersInSet(NSCharacterSet(charactersInString: "="))
         // + becomes -
