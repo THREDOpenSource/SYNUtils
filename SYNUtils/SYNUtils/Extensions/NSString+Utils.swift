@@ -19,47 +19,89 @@ extension String {
         }()
     }
     
+    public func startsWith(str: String) -> Bool {
+        if let range = rangeOfString(str) {
+            return range.startIndex == startIndex
+        }
+        return false
+    }
+    
+    public func endsWith(str: String) -> Bool {
+        if let range = rangeOfString(str) {
+            return range.endIndex == endIndex
+        }
+        return false
+    }
+    
+    public func contains(str: String) -> Bool {
+        return rangeOfString(str) != nil
+    }
+    
+    public func match(regex: RegExp) -> [String] {
+        let nsSelf = self as NSString
+        let matches = regex.matchesInString(self, options: nil, range: fullNSRange()) as! [NSTextCheckingResult]
+        return matches.map { return nsSelf.substringWithRange($0.range) }
+    }
+    
     public func replace(target: String, withString replacement: String,
         options: NSStringCompareOptions = .LiteralSearch,
         range searchRange: Range<Int>? = nil) -> String
     {
         let searchRange: Range<String.Index>? = (searchRange != nil) ? toStringRange(searchRange!) : nil
-        return self.stringByReplacingOccurrencesOfString(target, withString: replacement,
+        return stringByReplacingOccurrencesOfString(target, withString: replacement,
             options: options, range: searchRange)
     }
     
+    public func split(separator: String) -> [String] {
+        return componentsSeparatedByString(separator)
+    }
+    
+    public func split(separators: NSCharacterSet) -> [String] {
+        return componentsSeparatedByCharactersInSet(separators)
+    }
+    
+    public func substr(range: Range<Int>) -> String {
+        return substr(toStringRange(range))
+    }
+    
+    public func substr(range: Range<String.Index>) -> String {
+        return substringWithRange(range)
+    }
+    
+    public func trim() -> String {
+        return stringByTrimmingCharactersInSet(CharacterSets.whitespaceAndNewline)
+    }
+    
+    public func uriEncoded() -> String {
+        return stringByAddingPercentEncodingWithAllowedCharacters(CharacterSets.uri)!
+    }
+    
+    public func md5Sum() -> String {
+        if let data = dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) {
+            return MD5(data).calculate().toHexString()
+        } else {
+            return "00000000000000000000000000000000"
+        }
+    }
+    
+    // MARK: - Range Helpers
+    
     public func rangeWithOffsets(startOffset: Int = 0, endOffset: Int = 0) -> Range<String.Index> {
         return Range<String.Index>(
-            start: advance(self.startIndex, startOffset),
-            end: advance(self.endIndex, endOffset)
+            start: advance(startIndex, startOffset),
+            end: advance(endIndex, endOffset)
         )
     }
     
     public func toStringRange(range: Range<Int>) -> Range<String.Index> {
-        return Range<String.Index>(
-            start: advance(self.startIndex, range.startIndex),
-            end: advance(self.startIndex, range.endIndex - range.startIndex)
+        return Range(
+            start: advance(startIndex, range.startIndex),
+            end: advance(startIndex, range.endIndex)
         )
     }
     
     public func fullNSRange() -> NSRange {
         return NSMakeRange(0, (self as NSString).length)
-    }
-    
-    public func trim() -> String {
-        return self.stringByTrimmingCharactersInSet(CharacterSets.whitespaceAndNewline)
-    }
-    
-    public func uriEncoded() -> String {
-        return self.stringByAddingPercentEncodingWithAllowedCharacters(CharacterSets.uri)!
-    }
-    
-    public func md5Sum() -> String {
-        if let data = self.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) {
-            return MD5(data).calculate().toHexString()
-        } else {
-            return "00000000000000000000000000000000"
-        }
     }
     
     // MARK: - String Length
@@ -69,11 +111,11 @@ extension String {
     }
     
     public var utf8Length: Int {
-        return count(self.utf8)
+        return count(utf8)
     }
     
     public var utf16Length: Int {
-        return count(self.utf16)
+        return count(utf16)
     }
     
     // MARK: - Validation
@@ -90,5 +132,19 @@ extension String {
         let emailRegex = "[A-Z0-9a-z\\._%+-]+@([A-Za-z0-9-]+\\.)+[A-Za-z]{2,4}"
         let emailTest = NSPredicate(format: "SELF MATCHES %@", emailRegex)
         return emailTest.evaluateWithObject(self)
+    }
+    
+    // MARK: - Subscript Access
+    
+    public subscript(i: Int) -> Character {
+        return self[advance(startIndex, i)]
+    }
+    
+    public subscript(i: Int) -> String {
+        return String(self[i] as Character)
+    }
+    
+    public subscript(r: Range<Int>) -> String {
+        return substringWithRange(toStringRange(r))
     }
 }

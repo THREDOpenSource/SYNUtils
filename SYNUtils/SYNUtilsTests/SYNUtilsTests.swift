@@ -11,7 +11,7 @@ import XCTest
 import SYNUtils
 
 class NSRegularExpressionTests: XCTestCase {
-    let abcs = "abcdef"
+    let abcdef = "abcdef"
     let emojis = "👹👀🐼📱"
     let qbfjold = "The Quick Brown Fox Jumps Over The Lazy Dog"
     
@@ -27,9 +27,9 @@ class NSRegularExpressionTests: XCTestCase {
     
     func testExec() {
         let re1 = RegExp(".")
-        let matches1 = re1!.exec(abcs)
-        XCTAssertEqual(matches1.input, abcs)
-        XCTAssertEqual(count(abcs), matches1.count)
+        let matches1 = re1!.exec(abcdef)
+        XCTAssertEqual(matches1.input, abcdef)
+        XCTAssertEqual(count(abcdef), matches1.count)
         for match in matches1 {
             XCTAssertEqual(0, match.captureGroups.count)
         }
@@ -37,9 +37,9 @@ class NSRegularExpressionTests: XCTestCase {
         XCTAssertEqual(matches1[5].value, "f")
         
         let re2 = RegExp("(.)(.)(.)")
-        let matches2 = re2!.exec(abcs)
-        XCTAssertEqual(matches2.input, abcs)
-        XCTAssertEqual(count(abcs) / 3, matches2.count)
+        let matches2 = re2!.exec(abcdef)
+        XCTAssertEqual(matches2.input, abcdef)
+        XCTAssertEqual(count(abcdef) / 3, matches2.count)
         XCTAssertEqual("abc", matches2[0].value)
         XCTAssertEqual("def", matches2[1].value)
         XCTAssertEqual(3, matches2[0].captureGroups.count)
@@ -60,23 +60,48 @@ class NSRegularExpressionTests: XCTestCase {
     
     func testTest() {
         let re1 = RegExp("abc")
-        XCTAssertTrue(re1!.test(abcs))
+        XCTAssertTrue(re1!.test(abcdef))
         XCTAssertFalse(re1!.test(emojis))
         XCTAssertFalse(re1!.test(qbfjold))
         
         let re2 = RegExp("ab+c")
-        XCTAssertTrue(re2!.test(abcs))
+        XCTAssertTrue(re2!.test(abcdef))
         XCTAssertFalse(re2!.test(emojis))
         XCTAssertFalse(re2!.test(qbfjold))
         
         let re4 = RegExp("🐼")
-        XCTAssertFalse(re4!.test(abcs))
+        XCTAssertFalse(re4!.test(abcdef))
         XCTAssertTrue(re4!.test(emojis))
         XCTAssertFalse(re4!.test(qbfjold))
         
         let re5 = RegExp("fox jumps over", ignoreCase: true)
-        XCTAssertFalse(re5!.test(abcs))
+        XCTAssertFalse(re5!.test(abcdef))
         XCTAssertFalse(re5!.test(emojis))
         XCTAssertTrue(re5!.test(qbfjold))
+    }
+}
+
+class NSStringTests: XCTestCase {
+    let abcdef = "abcdef"
+    let emojis = "👹👀🐼📱"
+    
+    func testSubscript() {
+        XCTAssertEqual("a", abcdef[0])
+        XCTAssertEqual("b", abcdef[1])
+        XCTAssertEqual("c", abcdef[2])
+        XCTAssertEqual("d", abcdef[3])
+        XCTAssertEqual("e", abcdef[4])
+        XCTAssertEqual("f", abcdef[5])
+        
+        XCTAssertEqual("👹", emojis[0])
+        XCTAssertEqual("👀", emojis[1])
+        XCTAssertEqual("🐼", emojis[2])
+        XCTAssertEqual("📱", emojis[3])
+        
+        XCTAssertEqual("abc", abcdef[0...2])
+        XCTAssertEqual("def", abcdef[3..<6])
+        
+        XCTAssertEqual("👹👀", emojis[0..<2])
+        XCTAssertEqual("🐼📱", emojis[2...3])
     }
 }
