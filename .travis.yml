@@ -6,4 +6,5 @@ before_install: true
 install: true
 git:
   submodules: false
-
+script:
+  - xctool test -workspace SYNUtils.xcworkspace -scheme SYNUtils -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO
