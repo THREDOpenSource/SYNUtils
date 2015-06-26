@@ -14,16 +14,6 @@ import Foundation
 /// :param: b Ending value
 /// :param: t Percent to interpolate from `a` to `b`, usually in the range [0-1]
 /// :returns: The interpolated value
-public func lerp(a: Int, b: Int, t: Int) -> Int {
-    return a + (b - a) * t
-}
-
-/// Linearly interpolate between two values.
-///
-/// :param: a Starting value
-/// :param: b Ending value
-/// :param: t Percent to interpolate from `a` to `b`, usually in the range [0-1]
-/// :returns: The interpolated value
 public func lerp(a: Float, b: Float, t: Float) -> Float {
     return a + (b - a) * t
 }
