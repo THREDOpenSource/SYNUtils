@@ -55,12 +55,12 @@ function parseFile(filename) {
 }
 
 function parseMethod(className, method, comment) {
-  if (method.indexOf('func') === -1) {
+  if (method.indexOf('func ') === -1) {
     console.error('Unrecognized method definition ' + method);
     return;
   }
 
-  var parts = method.split('func');
+  var parts = method.split('func ');
   var attributes = parts[0]
     .split(' ')
     .map(function(part) { return part.trim(); })

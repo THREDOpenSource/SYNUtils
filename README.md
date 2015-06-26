@@ -184,7 +184,7 @@ __Example__
 ---------------------------------------
 
 <a name="Array_indexOf" />
-### Array#indexOf(item: Equatable) -> Int?
+### Array#indexOf<U: Equatable>(item: U) -> Int?
 
 Return the index of the first array element equal to `item`.
 
@@ -238,7 +238,7 @@ __Example__
 ---------------------------------------
 
 <a name="Array_each" />
-### Array#each(
+### Array#each(function: IndexedElementCallback)
 
 Execute a function for each index and element tuple in the array.
 
@@ -1360,7 +1360,7 @@ __Example__
 ---------------------------------------
 
 <a name="Range_each" />
-### Range#each(
+### Range#each(function: T -> ())
 
 Execute a function for each element in the range.
 
@@ -1376,7 +1376,7 @@ __Example__
 ---------------------------------------
 
 <a name="Range_map" />
-### Range#map<V: AnyObject>(
+### Range#map<V: AnyObject>(function: T -> V) -> [V]
 
 Map each element in this range to an output value.
 
