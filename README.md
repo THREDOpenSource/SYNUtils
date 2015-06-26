@@ -222,7 +222,7 @@ __Example__
 ---------------------------------------
 
 <a name="Array_each" />
-### Array#each(
+### Array#each(function: ElementCallback)
 
 Execute a function for each element in the array.
 
