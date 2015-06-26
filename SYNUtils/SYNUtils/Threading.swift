@@ -15,14 +15,6 @@ public func runOnMainThread(block: dispatch_block_t) {
     dispatch_async(dispatch_get_main_queue(), block)
 }
 
-/// Asynchronously schedule a function for execution on a background thread,
-/// using the default priority global queue.
-///
-/// :param: block Function to run on a background thread in the (near) future
-public func runAsync(block: dispatch_block_t) {
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), block)
-}
-
 /// Asynchronously schedule a function for execution on the main thread if we're
 /// currently on a background thread, otherwise synchronously run the function
 /// immediately.
@@ -58,6 +50,14 @@ public func runOnMainThreadAfterDelay(delay: NSTimeInterval, block: dispatch_blo
     let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay * Double(NSEC_PER_SEC)))
     let queue = dispatch_get_main_queue()
     dispatch_after(time, queue, block)
+}
+
+/// Asynchronously schedule a function for execution on a background thread,
+/// using the default priority global queue.
+///
+/// :param: block Function to run on a background thread in the (near) future
+public func runAsync(block: dispatch_block_t) {
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), block)
 }
 
 /// Asynchronously schedule a function for execution on a background thread
