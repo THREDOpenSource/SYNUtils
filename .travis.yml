@@ -1,0 +1,8 @@
+language: objective-c
+xcode_workspace: SYNUtils.xcworkspace
+xcode_scheme: SYNUtils
+osx_image: beta-xcode6.3
+before_install: true
+install: true
+git:
+  submodules: false
