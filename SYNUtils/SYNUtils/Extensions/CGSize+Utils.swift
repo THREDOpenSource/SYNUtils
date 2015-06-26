@@ -10,7 +10,7 @@ import CoreGraphics
 
 extension CGSize {
     /// Scales this size to fill a rectangle. Some portion of this size may
-    //  extend beyond the bounds of the rectangle to fill the rectangle
+    /// extend beyond the bounds of the rectangle to fill the rectangle
     ///
     /// :param: toRect Target rectangle to fill
     /// :returns: A copy of this size, scaled to fill the target rectangle

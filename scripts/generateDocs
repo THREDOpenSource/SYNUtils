@@ -1,0 +1,160 @@
+#!/usr/bin/env node
+
+var fs = require('fs');
+var path = require('path');
+
+main();
+
+function main() {
+  var sourcePath = path.join(__dirname, '../SYNUtils/SYNUtils');
+  var swiftFiles = getFiles(sourcePath).filter(function(filename) { return filename.endsWith('.swift'); });
+
+  swiftFiles.forEach(parseFile);
+}
+
+/// Convert an array of optional types to non-optional types by removing any
+/// nil entries
+///
+/// :param: array Array of optional types
+/// :returns: A copy of the given array, typecasted with nil entries removed
+
+function parseFile(filename) {
+  var className = path.basename(filename, '.swift').replace('+Utils', '');
+  var lines = fs.readFileSync(filename, { encoding: 'utf8' }).split('\n');
+  var currentComment = '';
+  var currentMethod = '';
+
+  lines.forEach(function(line) {
+    line = line.trim();
+    //console.log(line.substr(0, 20));
+
+    if (currentMethod.length) {
+      currentMethod += ' ' + line;
+      var curlyBraceIndex = currentMethod.indexOf('{');
+
+      if (curlyBraceIndex !== -1) {
+        currentMethod = currentMethod.substr(0, curlyBraceIndex);
+
+        parseMethod(className, currentMethod.trim(), currentComment.trim());
+        currentMethod = '';
+        currentComment = '';
+      }
+
+      return;
+    }
+
+    if (currentComment.length && !line.startsWith('///')) {
+      currentMethod = line;
+      return;
+    }
+
+    if (line.startsWith('///')) {
+      currentComment += line.substr(3) + '\n';
+    }
+  });
+}
+
+function parseMethod(className, method, comment) {
+  if (method.indexOf('func') === -1) {
+    console.error('Unrecognized method definition ' + method);
+    return;
+  }
+
+  var parts = method.split('func');
+  var attributes = parts[0]
+    .split(' ')
+    .map(function(part) { return part.trim(); })
+    .filter(function(part) { return part; });
+
+  var isPublic = attributes.indexOf('public') !== -1;
+  var isStatic = attributes.indexOf('static') !== -1;
+  var isMutating = attributes.indexOf('mutating') !== -1;
+  var separator1 = isStatic ? '.' : '_';
+  var separator2 = isStatic ? '.' : '#';
+
+  method = parts[1].trim();
+  var methodName = method.match(/^[^<(]+/)[0];
+
+  console.log('<a name="' + className + separator1 + methodName + '" />');
+  console.log('### ' + className + separator2 + method);
+  console.log('');
+
+  ///////
+
+  var commentParts = comment.split('\n\n');
+  var intro = commentParts[0].replace('\n ', '\n');
+  var args = (commentParts[1] || '').split('\n');
+
+  console.log(intro);
+  console.log('');
+  console.log('__Arguments__');
+  console.log('');
+
+  args.forEach(function(arg) {
+    arg = arg.trim();
+
+    if (arg.startsWith(':param:')) {
+      printParam(arg.substr(':param:'.length).trim());
+    } else if (arg.startsWith(':returns:')) {
+      printReturns(arg.substr(':returns:'.length).trim());
+    } else {
+      console.log(arg);
+    }
+  });
+
+  console.log('');
+  console.log('__Example__');
+  console.log('');
+  console.log('```');
+  console.log('```');
+  console.log('');
+  console.log('---------------------------------------');
+  console.log('');
+
+/**
+
+
+
+Convert an array of optional types to non-optional types by removing any
+nil entries
+
+__Arguments__
+
+* `array` - Array of optional types
+* `returns` A copy of the given array, typecasted with nil entries removed
+
+__Example__
+
+```
+```
+
+---------------------------------------
+ */
+}
+
+function printParam(param) {
+  var words = param.split(' ');
+  var firstWord = words.shift();
+
+  console.log('* `' + firstWord + '` - ' + words.join(' '));
+}
+
+function printReturns(returnDesc) {
+  console.log('* `returns` ' + returnDesc);
+}
+
+function getFiles(dir, files_) {
+    files_ = files_ || [];
+
+    var files = fs.readdirSync(dir);
+    for (var i in files) {
+        var name = path.join(dir, files[i]);
+        if (fs.statSync(name).isDirectory()) {
+            getFiles(name, files_);
+        } else {
+            files_.push(name);
+        }
+    }
+
+    return files_;
+}
