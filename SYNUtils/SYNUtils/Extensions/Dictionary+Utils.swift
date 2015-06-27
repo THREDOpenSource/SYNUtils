@@ -11,6 +11,8 @@ import Foundation
 extension Dictionary {
     /// Convert a dictionary to an array of values sorted by the dictionary keys
     ///
+    ///   Dictionary.sortByKeys([2: "a", 1: "b"]) // Returns ["b", "a"]
+    ///
     /// :param: dictionary Dictionary to sort
     /// :returns: An array of values sorted by their corresponding keys in the
     ///   dictionary
@@ -30,6 +32,8 @@ extension Dictionary {
     /// Map all of the `(key, value)` tuples in this dictionary to new key value
     /// pairs in a new dictionary. The behavior is undefined for two or more
     /// keys mapping to the same output key
+    ///
+    ///   ["a": 1, "b": 2].map { return ("*" + $0, $1 * 3) } // Returns ["*a": 3, "*b": 6]
     ///
     /// :param: transform Function that is called once for each key value pair
     ///   and returns a new key value pair

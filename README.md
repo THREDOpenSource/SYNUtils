@@ -101,6 +101,8 @@ Adds `+`, `-`, `*`, `/` operators for two sizes and size with scalar.
 * [`minutes`](#NSDate_minutes)
 * [`seconds`](#NSDate_seconds)
 
+Adds `+`, `-`, `+=`, `-=`, `==`, `<` operators for NSDate.
+
 ### NSObject
 
 * [`getAssociatedObject`](#NSObject_getAssociatedObject)

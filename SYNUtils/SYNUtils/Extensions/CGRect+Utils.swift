@@ -18,6 +18,8 @@ extension CGRect {
     /// rectangle may extend beyond the bounds of the target rectangle to fill
     /// the target rectangle
     ///
+    ///   CGRectMake(0, 0, 4, 5).aspectFill(CGRectMake(0, 0, 100, 100)) // Returns { 0, -12.5, 100, 125 }
+    ///
     /// :param: toRect Target rectangle to fill
     /// :returns: A copy of this rectangle, scaled to fill the target rectangle
     public func aspectFill(toRect: CGRect) -> CGRect {
@@ -32,6 +34,8 @@ extension CGRect {
     
     /// Scales this rectangle to fill the interior of another rectangle while
     /// maintaining this rectangle's aspect ratio
+    ///
+    ///   CGRectMake(0, 0, 4, 5).aspectFit(CGRectMake(0, 0, 100, 100)) // Returns { 10, 0, 80, 100 }
     ///
     /// :param: toRect Target rectangle to fit inside of
     /// :returns: A copy of this rectangle, scaled to fit the target rectangle

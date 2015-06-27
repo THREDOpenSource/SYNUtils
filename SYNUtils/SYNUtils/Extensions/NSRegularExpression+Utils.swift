@@ -92,6 +92,10 @@ extension NSRegularExpression {
     /// Execute this regular expression against a given string and return all
     /// matches and capture groups.
     ///
+    ///   for match in RegExp("(\\w+)")!.exec("hello world") {
+    ///       println(match.captureGroups.first)
+    ///   }
+    ///
     /// :param: haystack The string to execute this regular expression against
     /// :returns: A `RegExpMatches` object containing each match which in turn
     ///   contains the matching value, range, and capture groups

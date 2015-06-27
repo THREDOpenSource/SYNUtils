@@ -14,6 +14,11 @@ extension NSObject {
     /// given key. They are particularly useful for adding new members to an
     /// object via extensions.
     ///
+    ///   extension UIViewController {
+    ///       private static var key = "myPropertyKey"
+    ///       var myProperty: String? { return getAssociatedObject(&UIViewController.key) as? String }
+    ///   }
+    ///
     /// :param: key Key used to store the associated object being retrieved
     /// :returns: Value associated with the given key on this object if it
     ///   exists and matches the expected type, otherwise nil
@@ -24,7 +29,15 @@ extension NSObject {
     /// Set an associated object. Associated objects allow NSObject-derived
     /// objects to be associated with a parent NSObject-derived object and a
     /// given key. They are particularly useful for adding new members to an
-    /// object via extensions
+    /// object via extensions.
+    ///
+    ///   extension UIViewController {
+    ///       private static var key = "myPropertyKey"
+    ///       var myProperty: String? {
+    ///           get { return getAssociatedObject(&UIViewController.key) as? String }
+    ///           set { setAssociatedObject(&UIViewController.key, newValue as NSString?) }
+    ///       }
+    ///   }
     ///
     /// :param: key Key used to store the associated object
     /// :param: value Object to store
@@ -35,8 +48,16 @@ extension NSObject {
     /// Retrieve an associated object that is lazily initialized. See
     /// `getAssociatedObject` for more information on associated objects.
     ///
+    ///   extension UIViewController {
+    ///       private static var key = "myPropertyKey"
+    ///       var myProperty: MyComplexObject {
+    ///           return lazyAssociatedObject(&UIViewController.key)
+    ///               { MyComplexObject() } as? MyComplexObject
+    ///       }
+    ///   }
+    ///
     /// :param: key Key used to store the associated object being retrieved
-    /// :param: initializer Function that instantiates the associated object.
+    /// :param: initializer Function that instantiates the associated object
     ///   This method is run only once the first time the object is accessed
     public func lazyAssociatedObject<T: NSObject>(key: UnsafePointer<Void>, initializer: () -> T) -> T {
         return objc_getAssociatedObject(self, key) as? T ?? {

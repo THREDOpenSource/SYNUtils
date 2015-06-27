@@ -14,7 +14,9 @@ extension Array {
     typealias TestCallback = Element -> Bool
     
     /// Convert an array of optional types to non-optional types by removing any
-    /// nil entries
+    /// nil entries.
+    ///
+    ///   let compacted: [Int] = [1, 2, nil, 3].compact()
     ///
     /// :param: array Array of optional types
     /// :returns: A copy of the given array, typecasted with nil entries removed
@@ -23,6 +25,8 @@ extension Array {
     }
     
     /// Return the index of the first array element equal to `item`.
+    ///
+    ///   if let index = [1, 2, 3].indexOf(2) { ... }
     ///
     /// :param: item The item to search for
     /// :returns: A zero-based index for the first matching element in the
@@ -38,6 +42,8 @@ extension Array {
     /// Return the index of the first array element where the supplied function
     /// returns true.
     ///
+    ///   if let index = [1, 2, 3].indexOf({ $0 == 2 }) { ... }
+    ///
     /// :param: condition Function that takes an array element and returns true
     ///   for a match, otherwise false
     /// :returns: A zero-based index for the first matching element in the
@@ -52,6 +58,8 @@ extension Array {
     
     /// Execute a function for each element in the array.
     ///
+    ///   [1, 2, 3].each { println($0) }
+    ///
     /// :param: function Function to run for each element
     func each(function: ElementCallback) {
         for item in self {
@@ -60,6 +68,8 @@ extension Array {
     }
     
     /// Execute a function for each index and element tuple in the array.
+    ///
+    ///   [1, 2, 3].each { println("Index \($0) = \($1)") }
     ///
     /// :param: function Function to run for each index and element tuple
     func each(function: IndexedElementCallback) {
@@ -70,6 +80,8 @@ extension Array {
     
     /// Test if the array contains one or more elements.
     ///
+    ///   if [1, 2, 3].contains(2, 3) { ... }
+    ///
     /// :param: items One or more elements to search for in the array. The array
     ///   must contain all of the given elements for this method to return true
     /// :returns: True if all of the given elements were found in the array,
@@ -79,6 +91,8 @@ extension Array {
     }
     
     /// Test if any of the array elements pass a given condition.
+    ///
+    ///   if [1, 2, 3].some({ $0 == 2 }) { ... }
     ///
     /// :param: test Function that takes an array element and returns true or
     ///   false
@@ -94,6 +108,8 @@ extension Array {
     
     /// Test if all of the array elements pass a given condition.
     ///
+    ///   if [1, 2, 3].every({ $0 is Int }) { ... }
+    ///
     /// :param: test Function that takes an array element and returns true or
     ///   false
     /// :returns: True if every array element passes the test function,
@@ -106,7 +122,9 @@ extension Array {
         return true
     }
     
-    /// Return a randomly chosen element from the array
+    /// Return a randomly chosen element from the array.
+    ///
+    ///   if let num = [1, 2, 3].chooseRandom() { println("Chose \(num)") }
     ///
     /// :returns: A randomly chosen element, or nil if the array is empty
     func chooseRandom() -> T? {
@@ -118,28 +136,36 @@ extension Array {
     
     // MARK: - Mutating Methods
     
-    /// Remove the last element from the array and return it
+    /// Remove the last element from the array and return it.
+    ///
+    ///   [1, 2, 3].pop() // Array becomes [1, 2]
     ///
     /// :returns: The last element in the array, or nil if the array is empty
     mutating func pop() -> Element? {
         return count > 0 ? removeAtIndex(count - 1) : nil
     }
     
-    /// Remove the first element from the array and return it
+    /// Remove the first element from the array and return it.
+    ///
+    ///   [1, 2, 3].shift() // Array becomes [2, 3]
     ///
     /// :returns: The first element in the array, or nil if the array is empty
     mutating func shift() -> Element? {
         return count > 0 ? removeAtIndex(0) : nil
     }
     
-    /// Add an element to the beginning of the array
+    /// Add an element to the beginning of the array.
+    ///
+    ///   [1, 2, 3].unshift(0) // Array becomes [0, 1, 2, 3]
     ///
     /// :param: item New item to prepend to the array
     mutating func unshift(item: T) {
         insert(item, atIndex: 0)
     }
     
-    /// Add an element to the array a given number of times
+    /// Add an element to the array a given number of times.
+    ///
+    ///   [].fill("a", 3) // Array becomes ["a", "a", "a"]
     ///
     /// :param: value New element to append to the array
     /// :param: count Number of times to append the new element

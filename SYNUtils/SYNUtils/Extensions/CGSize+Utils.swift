@@ -12,6 +12,8 @@ extension CGSize {
     /// Scales this size to fill a rectangle. Some portion of this size may
     /// extend beyond the bounds of the rectangle to fill the rectangle
     ///
+    ///   CGSizeMake(4, 5).aspectFill(CGSizeMake(100, 100)) // Returns { 100, 125 }
+    ///
     /// :param: toRect Target rectangle to fill
     /// :returns: A copy of this size, scaled to fill the target rectangle
     public func aspectFill(toSize: CGSize) -> CGSize {
@@ -24,6 +26,8 @@ extension CGSize {
     
     /// Scales this size to fill the interior of a rectangle while maintaining
     /// this size's aspect ratio
+    ///
+    ///   CGSizeMake(4, 5).aspectFill(CGSizeMake(100, 100)) // Returns { 80, 100 }
     ///
     /// :param: toRect Target rectangle to fit inside of
     /// :returns: A copy of this size, scaled to fit the target rectangle
