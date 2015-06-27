@@ -28,7 +28,7 @@ extension NSObject {
     ///
     /// :param: key Key used to store the associated object
     /// :param: value Object to store
-    public func setAssociatedObject<T: NSObject>(key: UnsafePointer<Void>, value: T) {
+    public func setAssociatedObject<T: NSObject>(key: UnsafePointer<Void>, _ value: T?) {
         objc_setAssociatedObject(self, key, value, UInt(OBJC_ASSOCIATION_RETAIN))
     }
     
