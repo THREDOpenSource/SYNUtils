@@ -10,6 +10,40 @@ import UIKit
 import XCTest
 import SYNUtils
 
+class CGRectTests: XCTestCase {
+    let fourFifthsRect = CGRectMake(0, 0, 4, 5)
+    let cinemaRect = CGRectMake(0, 0, 16, 9)
+    let square100Rect = CGRectMake(0, 0, 100, 100)
+    
+    func testAspectFill() {
+        let scaled1 = fourFifthsRect.aspectFill(square100Rect)
+        XCTAssertEqual(0, scaled1.origin.x)
+        XCTAssertEqual(-12.5, scaled1.origin.y)
+        XCTAssertEqual(100, scaled1.size.width)
+        XCTAssertEqual(125, scaled1.size.height)
+        
+        let scaled2 = square100Rect.aspectFill(fourFifthsRect)
+        XCTAssertEqual(-0.5, scaled2.origin.x)
+        XCTAssertEqual(0, scaled2.origin.y)
+        XCTAssertEqual(5, scaled2.size.width)
+        XCTAssertEqual(5, scaled2.size.height)
+    }
+    
+    func testAspectFit() {
+        let scaled1 = fourFifthsRect.aspectFit(square100Rect)
+        XCTAssertEqual(10, scaled1.origin.x)
+        XCTAssertEqual(0, scaled1.origin.y)
+        XCTAssertEqual(80, scaled1.size.width)
+        XCTAssertEqual(100, scaled1.size.height)
+        
+        let scaled2 = square100Rect.aspectFit(fourFifthsRect)
+        XCTAssertEqual(0, scaled2.origin.x)
+        XCTAssertEqual(0.5, scaled2.origin.y)
+        XCTAssertEqual(4, scaled2.size.width)
+        XCTAssertEqual(4, scaled2.size.height)
+    }
+}
+
 class NSRegularExpressionTests: XCTestCase {
     let abcdef = "abcdef"
     let emojis = "👹🇪🇸👀🐼📱"
