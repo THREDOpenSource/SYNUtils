@@ -8,6 +8,23 @@
 
 import Foundation
 
+/// Retrieve a thread-local object that is lazily initialized. A new
+/// thread-local object is instantiated and cached for each thread this method
+/// is called on.
+///
+/// :param: key Key used to store the thread-local being retrieved
+/// :param: initializer Function that instantiates the thread-local object
+///   This method is run only once per thread, the first time the object is
+///   accessed on each thread
+public func lazyThreadLocalObject<T: AnyObject>(key: String, initializer: () -> T) -> T {
+    let threadDictionary = NSThread.currentThread().threadDictionary
+    return threadDictionary[key] as? T ?? {
+        let obj = initializer()
+        threadDictionary[key] = obj
+        return obj
+    }()
+}
+
 /// Asynchronously schedule a function for execution on the main thread
 ///
 /// :param: block Function to run on the main thread in the (near) future
