@@ -46,14 +46,14 @@ extension NSDate: Comparable {
             dateString = dateString.replace(":", withString: "", range: (20..<initialLength))
         }
         
-        // Try RFC 3339 first
-        if let d = NSDate.rfc3339Formatter.dateFromString(dateString) {
+        // Try ISO 8601 first
+        if let d = NSDate.isoFormatter.dateFromString(dateString) {
             self.init(timeInterval: 0, sinceDate: d)
             return
         }
         
-        // Try ISO 8601 next
-        if let d = NSDate.isoFormatter.dateFromString(dateString) {
+        // Try RFC 3339 next
+        if let d = NSDate.rfc3339Formatter.dateFromString(dateString) {
             self.init(timeInterval: 0, sinceDate: d)
             return
         }
@@ -81,14 +81,15 @@ extension NSDate: Comparable {
     
     /// Returns this date as an ISO 8601 string.
     ///
-    /// :returns: ISO 8601 formatted string. Example:
+    /// :returns: ISO 8601 formatted string. Example: "2008-09-22T14:01:54.957Z"
     public func toISOString() -> String {
         return NSDate.isoFormatter.stringFromDate(self)
     }
     
     /// Returns this date as an RFC 3339 string.
     ///
-    /// :returns: RFC 3339 formatted string
+    /// :returns: RFC 3339 formatted string. Example:
+    ///   "2002-10-02T10:00:00-05:00"
     public func toRFC3339String() -> String {
         return NSDate.rfc3339Formatter.stringFromDate(self)
     }
@@ -98,7 +99,7 @@ extension NSDate: Comparable {
     /// Returns this date as a UNIX timestamp (number of whole seconds passed
     /// since the UNIX epoch).
     ///
-    /// :returns: 64-bit integer timestamp
+    /// :returns: 64-bit integer timestamp. Example: 1435383187
     public func unixTimestamp() -> Int64 {
         return Int64(self.timeIntervalSince1970)
     }
