@@ -44,6 +44,22 @@ class CGRectTests: XCTestCase {
     }
 }
 
+class NSObjectTests: XCTestCase {
+    private static var key = "testPropertyKey"
+    var testProperty: String? {
+        get { return getAssociatedObject(&NSObjectTests.key) as? String }
+        set { setAssociatedObject(&NSObjectTests.key, newValue as NSString?) }
+    }
+    
+    func testGetSetAssociatedObject() {
+        XCTAssertNil(testProperty)
+        testProperty = "test"
+        XCTAssertEqual("test", testProperty!)
+        testProperty = nil
+        XCTAssertNil(testProperty)
+    }
+}
+
 class NSRegularExpressionTests: XCTestCase {
     let abcdef = "abcdef"
     let emojis = "👹🇪🇸👀🐼📱"
