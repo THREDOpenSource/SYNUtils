@@ -13,13 +13,35 @@ Utility methods, polyfills, and operators to simplify common tasks in Swift.
 
 ### Global Methods
 
-* [`lerp`](#lerp)
 * [`runOnMainThread`](#runOnMainThread)
 * [`runOnMainThreadIfNeeded`](#runOnMainThreadIfNeeded)
 * [`runOnMainThreadIfNeededSync`](#runOnMainThreadIfNeededSync)
 * [`runOnMainThreadAfterDelay`](#runOnMainThreadAfterDelay)
 * [`runAsync`](#runAsync)
 * [`runAsyncAfterDelay`](#runAsyncAfterDelay)
+
+### FloatingPointMathType (CGFloat, Float, Double)
+
+* `abs`
+* `acos`
+* `asin`
+* `atan`
+* `atan2`
+* `cos`
+* `sin`
+* `tan`
+* `exp`
+* `exp2`
+* `lerp`
+* `log`
+* `log10`
+* `log2`
+* `pow`
+* `sqrt`
+* `floor`
+* `ceil`
+* `round`
+* `clamp`
 
 ### Array
 
@@ -56,16 +78,6 @@ Adds `+`, `-`, `*`, `/` operators for two sizes and size with scalar.
 
 * [`Dictionary.sortByKeys`](#Dictionary.sortByKeys)
 * [`map`](#Dictionary_map)
-
-### Double
-
-* [`abs`](#abs)
-* [`sqrt`](#sqrt)
-* [`floor`](#floor)
-* [`ceil`](#ceil)
-* [`round`](#round)
-* [`clamp`](#clamp)
-* [`random`](#random)
 
 ### NSData
 
