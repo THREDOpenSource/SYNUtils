@@ -12,12 +12,6 @@ function main() {
   swiftFiles.forEach(parseFile);
 }
 
-/// Convert an array of optional types to non-optional types by removing any
-/// nil entries
-///
-/// :param: array Array of optional types
-/// :returns: A copy of the given array, typecasted with nil entries removed
-
 function parseFile(filename) {
   var className = path.basename(filename, '.swift').replace('+Utils', '');
   var lines = fs.readFileSync(filename, { encoding: 'utf8' }).split('\n');
@@ -36,8 +30,8 @@ function parseFile(filename) {
         currentMethod = currentMethod.substr(0, curlyBraceIndex);
 
         parseMethod(className, currentMethod.trim(), currentComment.trim());
-        currentMethod = '';
         currentComment = '';
+        currentMethod = '';
       }
 
       return;
@@ -83,53 +77,57 @@ function parseMethod(className, method, comment) {
 
   var commentParts = comment.split('\n\n');
   var intro = commentParts[0].replace('\n ', '\n');
-  var args = (commentParts[1] || '').split('\n');
+  var example, args;
+  if (commentParts.length > 2) {
+    args = commentParts.pop().split('\n');
+    commentParts.shift();
+    example = commentParts.join('\n\n').split('\n');
+    var exampleOffset = example[0].length - example[0].trimLeft().length;
+    example = example.map(function(line) { return line.substr(exampleOffset); }).join('\n');
+  } else {
+    args = (commentParts[1] || '').split('\n');
+  }
+
+  var hasParam = false;
+  args.forEach(function(arg) {
+    hasParam = hasParam || arg.indexOf(':param:') !== -1 || arg.indexOf(':returns:') !== -1;
+  });
+
+  ///////
 
   console.log(intro);
   console.log('');
-  console.log('__Arguments__');
-  console.log('');
 
-  args.forEach(function(arg) {
-    arg = arg.trim();
+  if (hasParam) {
+    console.log('__Arguments__');
+    console.log('');
 
-    if (arg.startsWith(':param:')) {
-      printParam(arg.substr(':param:'.length).trim());
-    } else if (arg.startsWith(':returns:')) {
-      printReturns(arg.substr(':returns:'.length).trim());
-    } else {
-      console.log(arg);
-    }
-  });
+    args.forEach(function(arg) {
+      arg = arg.trim();
 
-  console.log('');
-  console.log('__Example__');
-  console.log('');
-  console.log('```');
-  console.log('```');
-  console.log('');
+      if (arg.startsWith(':param:')) {
+        printParam(arg.substr(':param:'.length).trim());
+      } else if (arg.startsWith(':returns:')) {
+        printReturns(arg.substr(':returns:'.length).trim());
+      } else {
+        console.log(arg);
+      }
+    });
+
+    console.log('');
+  }
+
+  if (example && example.trim().length) {
+    console.log('__Example__');
+    console.log('');
+    console.log('```');
+    console.log(example);
+    console.log('```');
+    console.log('');
+  }
+
   console.log('---------------------------------------');
   console.log('');
-
-/**
-
-
-
-Convert an array of optional types to non-optional types by removing any
-nil entries
-
-__Arguments__
-
-* `array` - Array of optional types
-* `returns` A copy of the given array, typecasted with nil entries removed
-
-__Example__
-
-```
-```
-
----------------------------------------
- */
 }
 
 function printParam(param) {
@@ -140,7 +138,7 @@ function printParam(param) {
 }
 
 function printReturns(returnDesc) {
-  console.log('* `returns` ' + returnDesc);
+  console.log('* **`returns`** ' + returnDesc);
 }
 
 function getFiles(dir, files_) {

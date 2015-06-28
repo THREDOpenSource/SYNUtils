@@ -171,16 +171,17 @@ typealias to `NSImage` on non-iOS, missing `init(CGImage)` and `CGImage` added.
 ### Array.compact(array: [T?]) -> [T]
 
 Convert an array of optional types to non-optional types by removing any
-nil entries
+nil entries.
 
 __Arguments__
 
 * `array` - Array of optional types
-* `returns` A copy of the given array, typecasted with nil entries removed
+* **`returns`** A copy of the given array, typecasted with nil entries removed
 
 __Example__
 
 ```
+let compacted: [Int] = [1, 2, nil, 3].compact()
 ```
 
 ---------------------------------------
@@ -193,12 +194,13 @@ Return the index of the first array element equal to `item`.
 __Arguments__
 
 * `item` - The item to search for
-* `returns` A zero-based index for the first matching element in the
+* **`returns`** A zero-based index for the first matching element in the
 array, otherwise nil
 
 __Example__
 
 ```
+if let index = [1, 2, 3].indexOf(2) { ... }
 ```
 
 ---------------------------------------
@@ -213,12 +215,13 @@ __Arguments__
 
 * `condition` - Function that takes an array element and returns true
 for a match, otherwise false
-* `returns` A zero-based index for the first matching element in the
+* **`returns`** A zero-based index for the first matching element in the
 array, otherwise nil
 
 __Example__
 
 ```
+if let index = [1, 2, 3].indexOf({ $0 == 2 }) { ... }
 ```
 
 ---------------------------------------
@@ -235,6 +238,7 @@ __Arguments__
 __Example__
 
 ```
+[1, 2, 3].each { println($0) }
 ```
 
 ---------------------------------------
@@ -251,6 +255,7 @@ __Arguments__
 __Example__
 
 ```
+[1, 2, 3].each { println("Index \($0) = \($1)") }
 ```
 
 ---------------------------------------
@@ -264,12 +269,13 @@ __Arguments__
 
 * `items` - One or more elements to search for in the array. The array
 must contain all of the given elements for this method to return true
-* `returns` True if all of the given elements were found in the array,
+* **`returns`** True if all of the given elements were found in the array,
 otherwise false
 
 __Example__
 
 ```
+if [1, 2, 3].contains(2, 3) { ... }
 ```
 
 ---------------------------------------
@@ -283,12 +289,13 @@ __Arguments__
 
 * `test` - Function that takes an array element and returns true or
 false
-* `returns` True the first time an array element passes the test function,
+* **`returns`** True the first time an array element passes the test function,
 otherwise false
 
 __Example__
 
 ```
+if [1, 2, 3].some({ $0 == 2 }) { ... }
 ```
 
 ---------------------------------------
@@ -302,12 +309,32 @@ __Arguments__
 
 * `test` - Function that takes an array element and returns true or
 false
-* `returns` True if every array element passes the test function,
+* **`returns`** True if every array element passes the test function,
 otherwise false the first time an element fails the test
 
 __Example__
 
 ```
+if [1, 2, 3].every({ $0 is Int }) { ... }
+```
+
+---------------------------------------
+
+<a name="Array_joinWithString" />
+### Array#joinWithString(separator: String) -> String
+
+Flatten the elements of this array into a string, with the `separator`
+string between each element in the output string.
+
+__Arguments__
+
+* `separator` - String to place between each element
+* **`returns`** A string representation of the array
+
+__Example__
+
+```
+[1, 2, 3].joinWithString("-") // "1-2-3"
 ```
 
 ---------------------------------------
@@ -315,15 +342,16 @@ __Example__
 <a name="Array_chooseRandom" />
 ### Array#chooseRandom() -> T?
 
-Return a randomly chosen element from the array
+Return a randomly chosen element from the array.
 
 __Arguments__
 
-* `returns` A randomly chosen element, or nil if the array is empty
+* **`returns`** A randomly chosen element, or nil if the array is empty
 
 __Example__
 
 ```
+if let num = [1, 2, 3].chooseRandom() { println("Chose \(num)") }
 ```
 
 ---------------------------------------
@@ -331,15 +359,16 @@ __Example__
 <a name="Array_pop" />
 ### Array#pop() -> Element?
 
-Remove the last element from the array and return it
+Remove the last element from the array and return it.
 
 __Arguments__
 
-* `returns` The last element in the array, or nil if the array is empty
+* **`returns`** The last element in the array, or nil if the array is empty
 
 __Example__
 
 ```
+[1, 2, 3].pop() // Array becomes [1, 2]
 ```
 
 ---------------------------------------
@@ -347,15 +376,16 @@ __Example__
 <a name="Array_shift" />
 ### Array#shift() -> Element?
 
-Remove the first element from the array and return it
+Remove the first element from the array and return it.
 
 __Arguments__
 
-* `returns` The first element in the array, or nil if the array is empty
+* **`returns`** The first element in the array, or nil if the array is empty
 
 __Example__
 
 ```
+[1, 2, 3].shift() // Array becomes [2, 3]
 ```
 
 ---------------------------------------
@@ -363,7 +393,7 @@ __Example__
 <a name="Array_unshift" />
 ### Array#unshift(item: T)
 
-Add an element to the beginning of the array
+Add an element to the beginning of the array.
 
 __Arguments__
 
@@ -372,6 +402,7 @@ __Arguments__
 __Example__
 
 ```
+[1, 2, 3].unshift(0) // Array becomes [0, 1, 2, 3]
 ```
 
 ---------------------------------------
@@ -379,7 +410,7 @@ __Example__
 <a name="Array_fill" />
 ### Array#fill(value: Element, count: Int)
 
-Add an element to the array a given number of times
+Add an element to the array a given number of times.
 
 __Arguments__
 
@@ -389,6 +420,7 @@ __Arguments__
 __Example__
 
 ```
+[].fill("a", 3) // Array becomes ["a", "a", "a"]
 ```
 
 ---------------------------------------
@@ -403,11 +435,12 @@ rectangle may extend beyond the bounds of the target rectangle to fill
 __Arguments__
 
 * `toRect` - Target rectangle to fill
-* `returns` A copy of this rectangle, scaled to fill the target rectangle
+* **`returns`** A copy of this rectangle, scaled to fill the target rectangle
 
 __Example__
 
 ```
+CGRectMake(0, 0, 4, 5).aspectFill(CGRectMake(0, 0, 100, 100)) // Returns { 0, -12.5, 100, 125 }
 ```
 
 ---------------------------------------
@@ -421,11 +454,12 @@ maintaining this rectangle's aspect ratio
 __Arguments__
 
 * `toRect` - Target rectangle to fit inside of
-* `returns` A copy of this rectangle, scaled to fit the target rectangle
+* **`returns`** A copy of this rectangle, scaled to fit the target rectangle
 
 __Example__
 
 ```
+CGRectMake(0, 0, 4, 5).aspectFit(CGRectMake(0, 0, 100, 100)) // Returns { 10, 0, 80, 100 }
 ```
 
 ---------------------------------------
@@ -439,11 +473,12 @@ extend beyond the bounds of the rectangle to fill the rectangle
 __Arguments__
 
 * `toRect` - Target rectangle to fill
-* `returns` A copy of this size, scaled to fill the target rectangle
+* **`returns`** A copy of this size, scaled to fill the target rectangle
 
 __Example__
 
 ```
+CGSizeMake(4, 5).aspectFill(CGSizeMake(100, 100)) // Returns { 100, 125 }
 ```
 
 ---------------------------------------
@@ -457,11 +492,12 @@ this size's aspect ratio
 __Arguments__
 
 * `toRect` - Target rectangle to fit inside of
-* `returns` A copy of this size, scaled to fit the target rectangle
+* **`returns`** A copy of this size, scaled to fit the target rectangle
 
 __Example__
 
 ```
+CGSizeMake(4, 5).aspectFill(CGSizeMake(100, 100)) // Returns { 80, 100 }
 ```
 
 ---------------------------------------
@@ -474,12 +510,13 @@ Convert a dictionary to an array of values sorted by the dictionary keys
 __Arguments__
 
 * `dictionary` - Dictionary to sort
-* `returns` An array of values sorted by their corresponding keys in the
+* **`returns`** An array of values sorted by their corresponding keys in the
 dictionary
 
 __Example__
 
 ```
+Dictionary.sortByKeys([2: "a", 1: "b"]) // Returns ["b", "a"]
 ```
 
 ---------------------------------------
@@ -495,11 +532,12 @@ __Arguments__
 
 * `transform` - Function that is called once for each key value pair
 and returns a new key value pair
-* `returns` Dictionary consisting of the mapped key value pairs
+* **`returns`** Dictionary consisting of the mapped key value pairs
 
 __Example__
 
 ```
+["a": 1, "b": 2].map { return ("*" + $0, $1 * 3) } // Returns ["*a": 3, "*b": 6]
 ```
 
 ---------------------------------------
@@ -511,12 +549,7 @@ Return the absolute value of this number
 
 __Arguments__
 
-* `returns` `fabs(self)`
-
-__Example__
-
-```
-```
+* **`returns`** `fabs(self)`
 
 ---------------------------------------
 
@@ -527,12 +560,7 @@ Return the square root of this number
 
 __Arguments__
 
-* `returns` `sqrt(self)`
-
-__Example__
-
-```
-```
+* **`returns`** `sqrt(self)`
 
 ---------------------------------------
 
@@ -543,12 +571,7 @@ Return this number rounded down to the nearest whole number
 
 __Arguments__
 
-* `returns` `floor(self)`
-
-__Example__
-
-```
-```
+* **`returns`** `floor(self)`
 
 ---------------------------------------
 
@@ -559,12 +582,7 @@ Return this number rounded up to the nearest whole number
 
 __Arguments__
 
-* `returns` `ceil(self)`
-
-__Example__
-
-```
-```
+* **`returns`** `ceil(self)`
 
 ---------------------------------------
 
@@ -575,12 +593,7 @@ Return this number rounded to the nearest whole number
 
 __Arguments__
 
-* `returns` `round(self)`
-
-__Example__
-
-```
-```
+* **`returns`** `round(self)`
 
 ---------------------------------------
 
@@ -594,12 +607,7 @@ __Arguments__
 
 * `min` - Inclusive minimum value
 * `max` - Inclusive maximum value
-* `returns` `Swift.max(min, Swift.min(max, self))`
-
-__Example__
-
-```
-```
+* **`returns`** `Swift.max(min, Swift.min(max, self))`
 
 ---------------------------------------
 
@@ -613,12 +621,7 @@ __Arguments__
 
 * `min` - Inclusive minimum value
 * `max` - Exclusive maximum value
-* `returns` A random number within the given interval
-
-__Example__
-
-```
-```
+* **`returns`** A random number within the given interval
 
 ---------------------------------------
 
@@ -632,12 +635,7 @@ encoding replaces `+` and `/` with `-` and `_`, respectively, and does
 
 __Arguments__
 
-* `returns` A URL-safe base64 encoded string
-
-__Example__
-
-```
-```
+* **`returns`** A URL-safe base64 encoded string
 
 ---------------------------------------
 
@@ -649,12 +647,7 @@ a "0x" prefix
 
 __Arguments__
 
-* `returns` A hexadecimal string
-
-__Example__
-
-```
-```
+* **`returns`** A hexadecimal string
 
 ---------------------------------------
 
@@ -666,12 +659,7 @@ offset from GMT.
 
 __Arguments__
 
-* `returns` Example: -25200 seconds for Pacific Daylight Time
-
-__Example__
-
-```
-```
+* **`returns`** Example: -25200 seconds for Pacific Daylight Time
 
 ---------------------------------------
 
@@ -682,15 +670,6 @@ Returns the current system local timezone as the number of minutes
 offset from GMT.
  :returns: Example: -420 minutes for Pacific Daylight Time
 
-__Arguments__
-
-
-
-__Example__
-
-```
-```
-
 ---------------------------------------
 
 <a name="NSDate_toISOString" />
@@ -700,12 +679,7 @@ Returns this date as an ISO 8601 string.
 
 __Arguments__
 
-* `returns` ISO 8601 formatted string
-
-__Example__
-
-```
-```
+* **`returns`** ISO 8601 formatted string. Example: "2008-09-22T14:01:54.957Z"
 
 ---------------------------------------
 
@@ -716,12 +690,8 @@ Returns this date as an RFC 3339 string.
 
 __Arguments__
 
-* `returns` RFC 3339 formatted string
-
-__Example__
-
-```
-```
+* **`returns`** RFC 3339 formatted string. Example:
+"2002-10-02T10:00:00-05:00"
 
 ---------------------------------------
 
@@ -733,12 +703,7 @@ since the UNIX epoch).
 
 __Arguments__
 
-* `returns` 64-bit integer timestamp
-
-__Example__
-
-```
-```
+* **`returns`** 64-bit integer timestamp. Example: 1435383187
 
 ---------------------------------------
 
@@ -752,13 +717,8 @@ __Arguments__
 
 * `otherDate` - Other date to compare this date against. The absolute
 difference between the two dates is used.
-* `returns` A short string representation of the time difference between
+* **`returns`** A short string representation of the time difference between
 the two dates
-
-__Example__
-
-```
-```
 
 ---------------------------------------
 
@@ -769,12 +729,7 @@ Returns an NSDate for midnight of the same day as this date.
 
 __Arguments__
 
-* `returns` NSDate at midnight
-
-__Example__
-
-```
-```
+* **`returns`** NSDate at midnight
 
 ---------------------------------------
 
@@ -783,30 +738,12 @@ __Example__
 
 Returns a new date by adding seconds to the current date.
 
-__Arguments__
-
-
-
-__Example__
-
-```
-```
-
 ---------------------------------------
 
 <a name="NSDate_addMinutes" />
 ### NSDate#addMinutes(minutes: Int) -> NSDate
 
 Returns a new date by adding minutes to the current date.
-
-__Arguments__
-
-
-
-__Example__
-
-```
-```
 
 ---------------------------------------
 
@@ -815,30 +752,12 @@ __Example__
 
 Returns a new date by adding hours to the current date.
 
-__Arguments__
-
-
-
-__Example__
-
-```
-```
-
 ---------------------------------------
 
 <a name="NSDate_addDays" />
 ### NSDate#addDays(days: Int) -> NSDate
 
 Returns a new date by adding days to the current date.
-
-__Arguments__
-
-
-
-__Example__
-
-```
-```
 
 ---------------------------------------
 
@@ -847,15 +766,6 @@ __Example__
 
 Returns a new date by adding weeks to the current date.
 
-__Arguments__
-
-
-
-__Example__
-
-```
-```
-
 ---------------------------------------
 
 <a name="NSDate_addMonths" />
@@ -863,30 +773,12 @@ __Example__
 
 Returns a new date by adding months to the current date.
 
-__Arguments__
-
-
-
-__Example__
-
-```
-```
-
 ---------------------------------------
 
 <a name="NSDate_addYears" />
 ### NSDate#addYears(years: Int) -> NSDate
 
 Returns a new date by adding years to the current date.
-
-__Arguments__
-
-
-
-__Example__
-
-```
-```
 
 ---------------------------------------
 
@@ -898,13 +790,8 @@ Test if a given date occurs after this date.
 __Arguments__
 
 * `date` - Date to test against this date
-* `returns` True if the given date is ahead of this date, otherwise false
+* **`returns`** True if the given date is ahead of this date, otherwise false
 if it is equal to or behind this date.
-
-__Example__
-
-```
-```
 
 ---------------------------------------
 
@@ -916,13 +803,8 @@ Test if a given date occurs before this date.
 __Arguments__
 
 * `date` - Date to test against this date
-* `returns` True if the given date is behind this date, otherwise false
+* **`returns`** True if the given date is behind this date, otherwise false
 if it is equal to or ahead of this date.
-
-__Example__
-
-```
-```
 
 ---------------------------------------
 
@@ -937,23 +819,27 @@ objects to be associated with a parent NSObject-derived object and a
 __Arguments__
 
 * `key` - Key used to store the associated object being retrieved
-* `returns` Value associated with the given key on this object if it
+* **`returns`** Value associated with the given key on this object if it
 exists and matches the expected type, otherwise nil
 
 __Example__
 
 ```
+extension UIViewController {
+    private static var key = "myPropertyKey"
+    var myProperty: String? { return getAssociatedObject(&UIViewController.key) as? String }
+}
 ```
 
 ---------------------------------------
 
 <a name="NSObject_setAssociatedObject" />
-### NSObject#setAssociatedObject<T: NSObject>(key: UnsafePointer<Void>, value: T)
+### NSObject#setAssociatedObject<T: NSObject>(key: UnsafePointer<Void>, _ value: T?)
 
 Set an associated object. Associated objects allow NSObject-derived
 objects to be associated with a parent NSObject-derived object and a
  given key. They are particularly useful for adding new members to an
- object via extensions
+ object via extensions.
 
 __Arguments__
 
@@ -963,6 +849,13 @@ __Arguments__
 __Example__
 
 ```
+extension UIViewController {
+    private static var key = "myPropertyKey"
+    var myProperty: String? {
+        get { return getAssociatedObject(&UIViewController.key) as? String }
+        set { setAssociatedObject(&UIViewController.key, newValue as NSString?) }
+    }
+}
 ```
 
 ---------------------------------------
@@ -976,12 +869,19 @@ Retrieve an associated object that is lazily initialized. See
 __Arguments__
 
 * `key` - Key used to store the associated object being retrieved
-* `initializer` - Function that instantiates the associated object.
+* `initializer` - Function that instantiates the associated object
 This method is run only once the first time the object is accessed
 
 __Example__
 
 ```
+extension UIViewController {
+    private static var key = "myPropertyKey"
+    var myProperty: MyComplexObject {
+        return lazyAssociatedObject(&UIViewController.key)
+            { MyComplexObject() } as? MyComplexObject
+    }
+}
 ```
 
 ---------------------------------------
@@ -995,12 +895,15 @@ matches and capture groups.
 __Arguments__
 
 * `haystack` - The string to execute this regular expression against
-* `returns` A `RegExpMatches` object containing each match which in turn
+* **`returns`** A `RegExpMatches` object containing each match which in turn
 contains the matching value, range, and capture groups
 
 __Example__
 
 ```
+for match in RegExp("(\\w+)")!.exec("hello world") {
+    println(match.captureGroups.first)
+}
 ```
 
 ---------------------------------------
@@ -1014,13 +917,8 @@ given string.
 __Arguments__
 
 * `string` - The string to test this regular expression against
-* `returns` True ifthe regular expression matched one or more times,
+* **`returns`** True ifthe regular expression matched one or more times,
 otherwise false
-
-__Example__
-
-```
-```
 
 ---------------------------------------
 
@@ -1033,12 +931,7 @@ __Arguments__
 
 * `prefix` - String to test against the beginning of the current
 string
-* `returns` True if this string starts with the given prefix
-
-__Example__
-
-```
-```
+* **`returns`** True if this string starts with the given prefix
 
 ---------------------------------------
 
@@ -1050,12 +943,7 @@ Test if this string ends with a given string.
 __Arguments__
 
 * `suffix` - String to test against the ending of the current string
-* `returns` True if this string ends with the given suffix
-
-__Example__
-
-```
-```
+* **`returns`** True if this string ends with the given suffix
 
 ---------------------------------------
 
@@ -1067,12 +955,7 @@ Test if this string contains a given string.
 __Arguments__
 
 * `needle` - String to search for
-* `returns` True if this string contains the given string
-
-__Example__
-
-```
-```
+* **`returns`** True if this string contains the given string
 
 ---------------------------------------
 
@@ -1085,12 +968,7 @@ method does not support capture groups (use `RegExp#exec()`).
 __Arguments__
 
 * `regex` - Regular expression to execute against this string
-* `returns` Array of zero or more
-
-__Example__
-
-```
-```
+* **`returns`** Array of zero or more
 
 ---------------------------------------
 
@@ -1106,13 +984,8 @@ __Arguments__
 * `withString` - Replacement string
 * `options` - String comparison options
 * `range` - Limit search and replace to a specific range
-* `returns` New string with all instances of `target` replaced by
+* **`returns`** New string with all instances of `target` replaced by
 `withString`
-
-__Example__
-
-```
-```
 
 ---------------------------------------
 
@@ -1125,12 +998,7 @@ divided by a given separator.
 __Arguments__
 
 * `separator` - Separator string to split on. Example: ":"
-* `returns` Array of substrings
-
-__Example__
-
-```
-```
+* **`returns`** Array of substrings
 
 ---------------------------------------
 
@@ -1143,12 +1011,7 @@ divided by a given set of separator characters.
 __Arguments__
 
 * `separators` - Separator characters to split on
-* `returns` Array of substrings
-
-__Example__
-
-```
-```
+* **`returns`** Array of substrings
 
 ---------------------------------------
 
@@ -1160,12 +1023,7 @@ Returns a substring specified by a given character range.
 __Arguments__
 
 * `range` - Character range to extract
-* `returns` Extracted substring
-
-__Example__
-
-```
-```
+* **`returns`** Extracted substring
 
 ---------------------------------------
 
@@ -1177,12 +1035,7 @@ Returns a substring specified by a given string range.
 __Arguments__
 
 * `range` - String range to extract
-* `returns` Extracted substring
-
-__Example__
-
-```
-```
+* **`returns`** Extracted substring
 
 ---------------------------------------
 
@@ -1194,12 +1047,7 @@ Returns a substring starting at the specified character offset.
 __Arguments__
 
 * `startIndex` - Inclusive starting character index
-* `returns` Extracted substring
-
-__Example__
-
-```
-```
+* **`returns`** Extracted substring
 
 ---------------------------------------
 
@@ -1211,12 +1059,7 @@ removed.
 
 __Arguments__
 
-* `returns` Trimmed string
-
-__Example__
-
-```
-```
+* **`returns`** Trimmed string
 
 ---------------------------------------
 
@@ -1228,12 +1071,7 @@ encoding.
 
 __Arguments__
 
-* `returns` Escaped string
-
-__Example__
-
-```
-```
+* **`returns`** Escaped string
 
 ---------------------------------------
 
@@ -1244,12 +1082,7 @@ Returns this string's MD5 checksum as a hexidecimal string.
 
 __Arguments__
 
-* `returns` 32 character hexadecimal string
-
-__Example__
-
-```
-```
+* **`returns`** 32 character hexadecimal string
 
 ---------------------------------------
 
@@ -1265,12 +1098,7 @@ __Arguments__
 Must be >= 0
 * `endOffset` - Relative offset from the end of this string. Must be
 <= 0
-* `returns` `Range<String.Index>` for this string
-
-__Example__
-
-```
-```
+* **`returns`** `Range<String.Index>` for this string
 
 ---------------------------------------
 
@@ -1282,12 +1110,7 @@ Convert a range specified as character positions to a string range.
 __Arguments__
 
 * `range` - Character position range. Example: `(0...5)`
-* `returns` `Range<String.Index>` for this string
-
-__Example__
-
-```
-```
+* **`returns`** `Range<String.Index>` for this string
 
 ---------------------------------------
 
@@ -1299,12 +1122,7 @@ Convert an NSRange to a string range.
 __Arguments__
 
 * `NSRange` - to convert
-* `returns` `Range<String.Index>` for this string
-
-__Example__
-
-```
-```
+* **`returns`** `Range<String.Index>` for this string
 
 ---------------------------------------
 
@@ -1315,12 +1133,7 @@ Returns an NSRange representing the entire length of this string.
 
 __Arguments__
 
-* `returns` `NSRange`
-
-__Example__
-
-```
-```
+* **`returns`** `NSRange`
 
 ---------------------------------------
 
@@ -1333,12 +1146,7 @@ __Arguments__
 
 * `delay` - Number of seconds to wait before running the function
 * `handler` - Function to run
-* `returns` The newly created timer associated with this execution
-
-__Example__
-
-```
-```
+* **`returns`** The newly created timer associated with this execution
 
 ---------------------------------------
 
@@ -1352,12 +1160,7 @@ __Arguments__
 * `repeatInterval` - Number of seconds to wait before running the
 function the first time, and in between each successive run
 * `handler` - Function to return
-* `returns` The newly created timer associated with this execution
-
-__Example__
-
-```
-```
+* **`returns`** The newly created timer associated with this execution
 
 ---------------------------------------
 
@@ -1370,11 +1173,6 @@ __Arguments__
 
 * `function` - Function to run for each element
 
-__Example__
-
-```
-```
-
 ---------------------------------------
 
 <a name="Range_map" />
@@ -1385,12 +1183,7 @@ Map each element in this range to an output value.
 __Arguments__
 
 * `function` - Function mapping a range element to an output value
-* `returns` An array of output values
-
-__Example__
-
-```
-```
+* **`returns`** An array of output values
 
 ---------------------------------------
 
@@ -1401,12 +1194,7 @@ Convert this range to an array.
 
 __Arguments__
 
-* `returns` An array containing each element in the range
-
-__Example__
-
-```
-```
+* **`returns`** An array containing each element in the range
 
 ---------------------------------------
 
@@ -1418,29 +1206,7 @@ Create a 1x1 image filled with the specified color.
 __Arguments__
 
 * `color` - Color to fill the image with
-* `returns` New UIImage containing one pixel of the specified color
-
-__Example__
-
-```
-```
-
----------------------------------------
-
-<a name="MD5_arrayOfBytes" />
-### MD5#arrayOfBytes<T>(value: T, length: Int? = nil) -> [UInt8]
-
-Array of bytes, little-endian representation. Don't use if not necessary.
-I found this method slow
-
-__Arguments__
-
-
-
-__Example__
-
-```
-```
+* **`returns`** New UIImage containing one pixel of the specified color
 
 ---------------------------------------
 
@@ -1454,11 +1220,12 @@ __Arguments__
 * `a` - Starting value
 * `b` - Ending value
 * `t` - Percent to interpolate from `a` to `b`, usually in the range [0-1]
-* `returns` The interpolated value
+* **`returns`** The interpolated value
 
 __Example__
 
 ```
+lerp(50.0, 100.0, 0.5) // 75.0
 ```
 
 ---------------------------------------
@@ -1473,11 +1240,34 @@ __Arguments__
 * `a` - Starting value
 * `b` - Ending value
 * `t` - Percent to interpolate from `a` to `b`, usually in the range [0-1]
-* `returns` The interpolated value
+* **`returns`** The interpolated value
 
 __Example__
 
 ```
+lerp(50.0, 100.0, 0.5) // 75.0
+```
+
+---------------------------------------
+
+<a name="Threading_lazyThreadLocalObject" />
+### Threading#lazyThreadLocalObject<T: AnyObject>(key: String, initializer: () -> T) -> T
+
+Retrieve a thread-local object that is lazily initialized. A new
+thread-local object is instantiated and cached for each thread this method
+ is called on.
+
+__Arguments__
+
+* `key` - Key used to store the thread-local being retrieved
+* `initializer` - Function that instantiates the thread-local object
+This method is run only once per thread, the first time the object is
+accessed on each thread
+
+__Example__
+
+```
+lazyThreadLocalObject("my.namespace.object") { return MyObject() }
 ```
 
 ---------------------------------------
@@ -1494,6 +1284,7 @@ __Arguments__
 __Example__
 
 ```
+runOnMainThread { self.collectionView.reloadData() }
 ```
 
 ---------------------------------------
@@ -1512,6 +1303,7 @@ __Arguments__
 __Example__
 
 ```
+runOnMainThreadIfNeeded { self.collectionView.reloadData() }
 ```
 
 ---------------------------------------
@@ -1530,6 +1322,7 @@ __Arguments__
 __Example__
 
 ```
+runOnMainThreadIfNeededSync { myMainThreadWork() }
 ```
 
 ---------------------------------------
@@ -1548,6 +1341,7 @@ __Arguments__
 __Example__
 
 ```
+runOnMainThreadAfterDelay(3.0) { self.label.text = "Waited three seconds" }
 ```
 
 ---------------------------------------
@@ -1565,6 +1359,7 @@ __Arguments__
 __Example__
 
 ```
+runAsync { println("On thread \(NSThread.currentThread().name)") }
 ```
 
 ---------------------------------------
@@ -1583,6 +1378,9 @@ __Arguments__
 __Example__
 
 ```
+runAsyncAfterDelay(3.0) {
+    println("On thread \(NSThread.currentThread().name) after 3 seconds")
+}
 ```
 
 ---------------------------------------
