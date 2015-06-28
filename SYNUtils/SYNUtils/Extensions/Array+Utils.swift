@@ -122,6 +122,17 @@ extension Array {
         return true
     }
     
+    /// Flatten the elements of this array into a string, with the `separator`
+    /// string between each element in the output string.
+    ///
+    ///   [1, 2, 3].joinWithString("-") // "1-2-3"
+    ///
+    /// :param: separator String to place between each element
+    /// :returns: A string representation of the array
+    func joinWithString(separator: String) -> String {
+        return separator.join(self.map { "\($0)" })
+    }
+    
     /// Return a randomly chosen element from the array.
     ///
     ///   if let num = [1, 2, 3].chooseRandom() { println("Chose \(num)") }
