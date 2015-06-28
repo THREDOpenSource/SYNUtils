@@ -10,6 +10,8 @@ import Foundation
 
 /// Linearly interpolate between two values.
 ///
+///   lerp(50.0, 100.0, 0.5) // 75.0
+///
 /// :param: a Starting value
 /// :param: b Ending value
 /// :param: t Percent to interpolate from `a` to `b`, usually in the range [0-1]
@@ -19,6 +21,8 @@ public func lerp(a: Float, b: Float, t: Float) -> Float {
 }
 
 /// Linearly interpolate between two values.
+///
+///   lerp(50.0, 100.0, 0.5) // 75.0
 ///
 /// :param: a Starting value
 /// :param: b Ending value

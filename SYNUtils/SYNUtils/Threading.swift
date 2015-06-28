@@ -12,6 +12,8 @@ import Foundation
 /// thread-local object is instantiated and cached for each thread this method
 /// is called on.
 ///
+///    lazyThreadLocalObject("my.namespace.object") { return MyObject() }
+///
 /// :param: key Key used to store the thread-local being retrieved
 /// :param: initializer Function that instantiates the thread-local object
 ///   This method is run only once per thread, the first time the object is
@@ -27,6 +29,8 @@ public func lazyThreadLocalObject<T: AnyObject>(key: String, initializer: () -> 
 
 /// Asynchronously schedule a function for execution on the main thread
 ///
+///   runOnMainThread { self.collectionView.reloadData() }
+///
 /// :param: block Function to run on the main thread in the (near) future
 public func runOnMainThread(block: dispatch_block_t) {
     dispatch_async(dispatch_get_main_queue(), block)
@@ -35,6 +39,8 @@ public func runOnMainThread(block: dispatch_block_t) {
 /// Asynchronously schedule a function for execution on the main thread if we're
 /// currently on a background thread, otherwise synchronously run the function
 /// immediately.
+///
+///   runOnMainThreadIfNeeded { self.collectionView.reloadData() }
 ///
 /// :param: block Function to either asynchronously schedule or run immediately
 public func runOnMainThreadIfNeeded(block: dispatch_block_t) {
@@ -49,6 +55,8 @@ public func runOnMainThreadIfNeeded(block: dispatch_block_t) {
 /// the current background thread until it completes, or synchronously run the
 /// function immediately if we're already on the main thread.
 ///
+///   runOnMainThreadIfNeededSync { myMainThreadWork() }
+///
 /// :param: block Function to either synchronously schedule or run immediately
 public func runOnMainThreadIfNeededSync(block: dispatch_block_t) {
     if (NSThread.currentThread().isMainThread) {
@@ -61,6 +69,8 @@ public func runOnMainThreadIfNeededSync(block: dispatch_block_t) {
 /// Asynchronously schedule a function for execution on the main thread after at
 /// least the given delay.
 ///
+///   runOnMainThreadAfterDelay(3.0) { self.label.text = "Waited three seconds" }
+///
 /// :param: delay Minimum number of seconds to wait before execution
 /// :param: block Function to run on the main thread in the future
 public func runOnMainThreadAfterDelay(delay: NSTimeInterval, block: dispatch_block_t) {
@@ -72,6 +82,8 @@ public func runOnMainThreadAfterDelay(delay: NSTimeInterval, block: dispatch_blo
 /// Asynchronously schedule a function for execution on a background thread,
 /// using the default priority global queue.
 ///
+///   runAsync { println("On thread \(NSThread.currentThread().name)") }
+///
 /// :param: block Function to run on a background thread in the (near) future
 public func runAsync(block: dispatch_block_t) {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), block)
@@ -79,6 +91,10 @@ public func runAsync(block: dispatch_block_t) {
 
 /// Asynchronously schedule a function for execution on a background thread
 /// after at least the given delay, using the default priority global queue.
+///
+///   runAsyncAfterDelay(3.0) {
+///       println("On thread \(NSThread.currentThread().name) after 3 seconds")
+///   }
 ///
 /// :param: delay Minimum number of seconds to wait before execution
 /// :param: block Function to run on a background thread in the future
