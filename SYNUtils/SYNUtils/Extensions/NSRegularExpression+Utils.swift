@@ -12,7 +12,7 @@ public typealias RegExp = NSRegularExpression
 
 /// Represents a single regular expression match, including a string value and
 /// zero or more capture group strings
-public struct RegExpMatch {
+public struct RegExpMatch: Printable {
     /// The complete matched string
     public let value: String
     
@@ -22,10 +22,12 @@ public struct RegExpMatch {
     /// Array of capture groups for this match, if any capture groups were
     /// specified in the regular expression
     public let captureGroups: [String]
+    
+    public var description: String { return value }
 }
 
 /// A sequence of matches for a regular expression
-public struct RegExpMatches : SequenceType {
+public struct RegExpMatches : SequenceType, Printable {
     private let matches: [RegExpMatch]
     public var count: Int { return matches.count }
     public let input: String
@@ -53,6 +55,8 @@ public struct RegExpMatches : SequenceType {
         
         self.init(matches: matches, input: haystack)
     }
+    
+    public var description: String { return matches.joinWithString(", ") }
     
     // MARK: - Array Implementation
     
