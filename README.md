@@ -170,7 +170,11 @@ typealias to `NSImage` on non-iOS, missing `init(CGImage)` and `CGImage` added.
 <br>
 <br>
 <br>
----------------------------------------
+<br>
+<br>
+<br>
+<br>
+<br>
 
 <a name="Array.compact" />
 ### Array.compact(array: [T?]) -> [T]
