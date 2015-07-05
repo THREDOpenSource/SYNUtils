@@ -126,3 +126,30 @@ extension Double: FloatingPointMathType {
         return Swift.max(min, Swift.min(max, self))
     }
 }
+
+infix operator ** { associativity left precedence 160 }
+infix operator **= { associativity right precedence 90 }
+
+public func ** (left: CGFloat, right: CGFloat) -> CGFloat {
+    return CoreGraphics.pow(left, right)
+}
+
+public func **= (inout left: CGFloat, right: CGFloat) {
+    left = left ** right
+}
+
+public func ** (left: Float, right: Float) -> Float {
+    return Foundation.pow(left, right)
+}
+
+public func **= (inout left: Float, right: Float) {
+    left = left ** right
+}
+
+public func ** (left: Double, right: Double) -> Double {
+    return Foundation.pow(left, right)
+}
+
+public func **= (inout left: Double, right: Double) {
+    left = left ** right
+}
