@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9F04C3E81B4924E300F4E715 /* UIView+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F04C3E71B4924E300F4E715 /* UIView+Utils.swift */; };
 		9F1AEBCC1B3D251800FAC7B0 /* SYNUtils.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9FB02C361B39EAC2001369B4 /* SYNUtils.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9F3593711B3FE44700CB609A /* FloatingPointMathType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F3593701B3FE44700CB609A /* FloatingPointMathType.swift */; };
 		9FA092B21B3B691F00F011E5 /* NSRegularExpression+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FA092B11B3B691F00F011E5 /* NSRegularExpression+Utils.swift */; };
@@ -54,6 +55,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		9F04C3E71B4924E300F4E715 /* UIView+Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Utils.swift"; sourceTree = "<group>"; };
 		9F3593701B3FE44700CB609A /* FloatingPointMathType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FloatingPointMathType.swift; sourceTree = "<group>"; };
 		9FA092B11B3B691F00F011E5 /* NSRegularExpression+Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSRegularExpression+Utils.swift"; sourceTree = "<group>"; };
 		9FB02C361B39EAC2001369B4 /* SYNUtils.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SYNUtils.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -171,6 +173,7 @@
 				9FB02C731B3ABA8C001369B4 /* Range+Utils.swift */,
 				9FB02C5D1B3A1894001369B4 /* UIColor+Utils.swift */,
 				9FB02C691B3A5BFA001369B4 /* UIImage+Utils.swift */,
+				9F04C3E71B4924E300F4E715 /* UIView+Utils.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -291,6 +294,7 @@
 				9FB02C6C1B3A5E0E001369B4 /* CGRect+Utils.swift in Sources */,
 				9FB02C5A1B3A0DFB001369B4 /* NSData+Utils.swift in Sources */,
 				9FB02C741B3ABA8C001369B4 /* Range+Utils.swift in Sources */,
+				9F04C3E81B4924E300F4E715 /* UIView+Utils.swift in Sources */,
 				9FB02C5C1B3A153A001369B4 /* MD5.swift in Sources */,
 				9FB02C541B39EBDA001369B4 /* NSDate+Utils.swift in Sources */,
 				9FB02C5E1B3A1894001369B4 /* UIColor+Utils.swift in Sources */,
