@@ -169,3 +169,49 @@ class NSStringTests: XCTestCase {
         XCTAssertEqual("🐼📱", emojis[3...4])
     }
 }
+
+class NSTimerTests: XCTestCase {
+    func testBackoff() {
+        let expectation = expectationWithDescription("Backoff Timing")
+        
+        var attempts = 0
+        NSTimer.tryWithBackoff(.Fibonacci, firstDelay: 0.05, maxDelay: 0.5) {
+            (done: Bool -> Void) in
+            
+            if ++attempts == 8 {
+                expectation.fulfill()
+                done(true)
+            } else {
+                done(false)
+            }
+        }
+        
+        // TODO: Confirm at least a given amount of time has passed
+        waitForExpectationsWithTimeout(10.0) {
+            (error: NSError!) in
+            XCTAssertNil(error, "\(error)")
+        }
+    }
+}
+
+class UIViewTests: XCTestCase {
+    func testThreadGuard() {
+        let expectation = expectationWithDescription("Async UIView Work")
+        let window = UIWindow(frame: CGRectMake(0, 0, 100, 100))
+        let view = UIView(frame: CGRectMake(0, 0, 100, 100))
+        window.addSubview(view)
+        view.setNeedsDisplay()
+        
+        runAsync {
+            // TODO: Confirm this will assert in Swift 2
+            //view.setNeedsDisplay()
+            
+            expectation.fulfill()
+        }
+        
+        waitForExpectationsWithTimeout(5.0) {
+            (error: NSError!) in
+            XCTAssertNil(error, "\(error)")
+        }
+    }
+}
